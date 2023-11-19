@@ -1,5 +1,7 @@
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
+import OtherCostsOperations from "../features/otherCosts/OtherCostsOperations";
+import OtherCostsTable from "../features/otherCosts/OtherCostsTable";
 
 function OtherCosts() {
   return (

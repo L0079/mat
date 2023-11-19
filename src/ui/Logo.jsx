@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { useDarkMode } from "../context/DarkModeContext";
 
 const StyledLogo = styled.div`
@@ -12,9 +13,10 @@ const Img = styled.img`
 
 function Logo() {
   const { isDarkMode } = useDarkMode();
+  const navigate = useNavigate();
 
   return (
-    <StyledLogo>
+    <StyledLogo onClick={() => navigate("/")}>
       {isDarkMode ? (
         <Img src="/WhiteLogo_noBackground.svg" alt="Logo" />
       ) : (

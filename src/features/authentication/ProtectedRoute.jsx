@@ -19,7 +19,6 @@ function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   useEffect(
     function () {
-      //      console.log("ProtectedRoute", isLoading, isAuthenticated);
       if (!isAuthenticated && !isLoading) navigate("/login");
     },
     [isAuthenticated, isLoading, navigate]

@@ -12,14 +12,13 @@ function OtherCostsTable() {
 
   if (isLoading) return <Spinner />;
   if (error) return;
-
   if (!otherCosts.length > 0) return <Empty resource={"Other Costs"} />;
 
   return (
     <Menus>
       <Table
         role="table"
-        columns="0.5fr 0.8fr 0.6fr 1.5fr 0.8fr 0.8fr 0.6fr 0.6fr 0.3fr 0.3fr"
+        columns="0.4fr 0.4fr 0.6fr 0.6fr 1fr 0.6fr 0.6fr 0.6fr 0.6fr 0.2fr"
       >
         <Table.Header>
           <div></div>

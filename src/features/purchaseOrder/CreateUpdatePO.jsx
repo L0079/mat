@@ -138,17 +138,10 @@ function CreateUpdatePO({
   function onSubmit(data) {
     const values = { ...data };
 
-    console.log("PO 1", values, editON);
-
     let poNum = isEditSession ? editON : values.poNumber;
-    console.log("PO 2", poNum);
-
     if (!poNum.includes("/")) poNum = poNum + "/" + fiscalYear;
 
-    console.log("PO values", isEditSession, editValues);
-
     if (isEditSession) {
-      console.log("HERE");
       delete values["currencies"];
       delete values["paymentTerms"];
       delete values["suppliers"];
@@ -217,7 +210,6 @@ function CreateUpdatePO({
   if (isBusy) return <Spinner />;
   const fiscalYear = fyObj.fiscalYear;
 
-  //  console.log("CUPO", editValues, isInternalPO);
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       {!isModal && (

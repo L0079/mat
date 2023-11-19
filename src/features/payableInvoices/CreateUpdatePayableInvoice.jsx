@@ -84,7 +84,6 @@ function CreateUpdatePayableInvoice({
       delete values["suppliers"];
       delete values["paymentTerms"];
       delete values["id"];
-      console.log("VALUES", values, editId);
 
       updatePayableInvoice(
         { payableInvoice: { ...values }, id: editId },

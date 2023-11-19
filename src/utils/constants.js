@@ -30,3 +30,7 @@ export const COSTCENTER_TYPES = [{ type: "Cost" }, { type: "Profit" }];
 export const PAYABLE_INVOICE_RECEIVED_STATUS_ID = 1;
 export const PAYABLE_REGISTERED_STATUS_ID = 2;
 export const PAYABLE_PAID_STATUS_ID = 3;
+export const OTHER_COSTS_CREATED_STATUS_ID = 1;
+export const OTHER_COSTS_DEFAULT_DOC = 2;
+export const OTHER_COSTS_REGISTERED_STATUS_ID = 2;
+export const OTHER_COSTS_PAID_ID = 3;

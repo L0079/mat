@@ -16,11 +16,11 @@ import { formatCurrency } from "../../utils/helpers";
 import Menus from "../../ui/Menus";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import ConfirmStatusChange from "../../ui/ConfirmStatusChange";
-import PayableInvoicePaid from "./PayableInvoicePaid";
-import { useDeletePayableInvoice } from "./useDeletePayableInvoice";
-import { PAYABLE_REGISTERED_STATUS_ID } from "../../utils/constants";
-import CreateUpdatePayableInvoice from "./CreateUpdatePayableInvoice";
-import { useUpdatePayableInvoiceStatus } from "./useUpdatePayableInvoiceStatus";
+import CreateUpdateOtherCosts from "./CreateUpdateOtherCosts";
+import { useDeleteOtherCost } from "./useDeleteOtherCost";
+import { useUpdateOtherCost } from "./useUpdateOtherCost";
+import OtherCostPaid from "./OtherCostsPaid";
+import { OTHER_COSTS_REGISTERED_STATUS_ID } from "../../utils/constants";
 
 const Amount = styled.div`
   //font-family: "Sono";
@@ -44,15 +44,14 @@ const Supplier = styled.div`
 function OtherCostRow({ otherCost }) {
   const {
     id,
-    otherCostsStatus: { code: status },
-    otherCostsDocType: { code: docType },
+    otherCostsStatus: { status },
+    otherCostsDocTypes: { code: docType },
     documentNumber,
     documentDate,
     amount,
     totalAmount,
     currencies: { currency },
     suppliers: { supplier },
-    paymentDate,
     duePaymentDate,
     note,
   } = otherCost;
@@ -63,27 +62,14 @@ function OtherCostRow({ otherCost }) {
     paid: "silver",
   };
 
-  const { isDeleting, deletePayableInvoice } = useDeletePayableInvoice();
-  const { isUpdating, updatePayableInvoice } = useUpdatePayableInvoiceStatus();
-
+  const { isDeleting, deleteOtherCost } = useDeleteOtherCost();
+  const { isUpdating, updateOtherCost } = useUpdateOtherCost();
   const isBusy = isDeleting || isUpdating;
-
-  {
-    /* <div></div>
-  <div>Doc. Type</div>
-  <div>Doc. #</div>
-  <div>Doc. Date</div>
-  <div>Supplier</div>
-  <div>Amount</div>
-  <div>Total Amount</div>
-  <div>Payment Due On</div>
-  <div>Note</div>
-  <div></div> */
-  }
 
   return (
     <Table.Row>
       <Tag type={statusToTagName[status]}>{status}</Tag>
+      <Item>{docType}</Item>
       <Item>{documentNumber}</Item>
       <Item>{format(new Date(documentDate), "dd MMM yyyy")}</Item>
       <Supplier>{supplier}</Supplier>
@@ -92,23 +78,22 @@ function OtherCostRow({ otherCost }) {
       <Item>{duePaymentDate}</Item>
       <Item>{note}</Item>
       <Modal>
-        {/* 
-                  <Menus.Menu>
-                  <Menus.Toggle id={paId} />
-          <Menus.List id={paId}>
-            <Modal.Open opens="payable-invoice-details">
+        <Menus.Menu>
+          <Menus.Toggle id={id} />
+          <Menus.List id={id}>
+            <Modal.Open opens="other-cost-details">
               <Menus.Button icon={<HiOutlineEye />}>Details</Menus.Button>
             </Modal.Open>
 
-            {status === "received" && (
+            {status === "created" && (
               <>
-                <Modal.Open opens="payable-invoice-edit">
+                <Modal.Open opens="other-cost-edit">
                   <Menus.Button icon={<HiOutlinePencilSquare />}>
                     Edit
                   </Menus.Button>
                 </Modal.Open>
 
-                <Modal.Open opens="payable-invoice-register">
+                <Modal.Open opens="other-cost-register">
                   <Menus.Button icon={<HiOutlineBookOpen />}>
                     Register
                   </Menus.Button>
@@ -121,7 +106,7 @@ function OtherCostRow({ otherCost }) {
             )}
 
             {status === "registered" && (
-              <Modal.Open opens="payable-invoice-payment">
+              <Modal.Open opens="other-cost-payment">
                 <Menus.Button icon={<HiOutlineCurrencyEuro />}>
                   Paid
                 </Menus.Button>
@@ -129,45 +114,41 @@ function OtherCostRow({ otherCost }) {
             )}
           </Menus.List>
         </Menus.Menu>
-
-        <Modal.Window name="payable-invoice-details">
-          <CreateUpdatePayableInvoice
-            payableInvoice={payableInvoice}
+        <Modal.Window name="other-cost-details">
+          <CreateUpdateOtherCosts
+            otherCost={otherCost}
             isDisplay={true}
             onCloseModal={() => {
               return <Modal.Open opens="" />;
             }}
           />
         </Modal.Window>
-
-        <Modal.Window name="payable-invoice-edit">
-          <CreateUpdatePayableInvoice
-            payableInvoice={payableInvoice}
-            onCloseModal={() => {
-              return <Modal.Open opens="" />;
-            }}
-          />
-        </Modal.Window>
-
         <Modal.Window name="confirm-delete">
           <ConfirmDelete
-            resourceName={`invoice ${invoiceNumber}`}
-            onConfirm={() => deletePayableInvoice(paId)}
+            resourceName={`other cost ${documentNumber}`}
+            onConfirm={() => deleteOtherCost(id)}
             disabled={isBusy}
             onCloseModal={() => {
               return <Modal.Open opens="" />;
             }}
           />
         </Modal.Window>
-
-        <Modal.Window name="payable-invoice-register">
+        <Modal.Window name="other-cost-edit">
+          <CreateUpdateOtherCosts
+            otherCost={otherCost}
+            onCloseModal={() => {
+              return <Modal.Open opens="" />;
+            }}
+          />
+        </Modal.Window>
+        <Modal.Window name="other-cost-register">
           <ConfirmStatusChange
-            resourceName={`payable invoice ${invoiceNumber}`}
+            resourceName={`cost document ${documentNumber}`}
             newStatus="REGISTERED"
             onConfirm={() =>
-              updatePayableInvoice({
-                payableInvoice: { statusId: PAYABLE_REGISTERED_STATUS_ID },
-                id: paId,
+              updateOtherCost({
+                otherCost: { statusId: OTHER_COSTS_REGISTERED_STATUS_ID },
+                id: id,
               })
             }
             onCloseModal={() => {
@@ -175,15 +156,14 @@ function OtherCostRow({ otherCost }) {
             }}
           />
         </Modal.Window>
-
-        <Modal.Window name="payable-invoice-payment">
-          <PayableInvoicePaid
-            payableInvoice={payableInvoice}
+        <Modal.Window name="other-cost-payment">
+          <OtherCostPaid
+            otherCost={otherCost}
             onCloseModal={() => {
               return <Modal.Open opens="" />;
             }}
           />
-        </Modal.Window> */}
+        </Modal.Window>
       </Modal>
     </Table.Row>
   );

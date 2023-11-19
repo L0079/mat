@@ -19,6 +19,7 @@ import CreateUpdateOrder from "./features/orders/CreateUpdateOrder";
 import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import PayableInvoices from "./pages/PayableInvoices";
+import CreateUpdateOtherCosts from "./features/otherCosts/CreateUpdateOtherCosts";
 
 function App() {
   const queryClient = new QueryClient({

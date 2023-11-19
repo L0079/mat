@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import { BiChevronLeftCircle } from "react-icons/bi";
 
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
@@ -11,6 +12,7 @@ import Textarea from "../../ui/Textarea";
 import Spinner from "../../ui/Spinner";
 import Select from "../../ui/Select";
 import Button from "../../ui/Button";
+import ButtonIcon from "../../ui/ButtonIcon";
 import { useCustomers } from "../customers/useCustomers";
 import { useCurrencies } from "../currencies/useCurrencies";
 import { usePaymentTerms } from "../paymentTerms/usePaymentTerms";
@@ -19,6 +21,14 @@ import { useUpdateOrder } from "./useUpdateOrder";
 import { useFiscalYear } from "../settings/useFiscalYear";
 import { orderDefaultValues } from "../../utils/constants";
 import SpinnerMini from "../../ui/SpinnerMini";
+
+const StyledDiv = styled.div`
+  //font-family: "Sono";
+  margin-right: 5%;
+  display: flex;
+  flex-direction: row;
+  float: right;
+`;
 
 const ButtonsDiv = styled.div`
   //font-family: "Sono";
@@ -51,6 +61,7 @@ export default function CreateUpdateOrder({
   onCloseModal,
 }) {
   //  const { id: editId, ...editValues } = order;
+  const isModal = onCloseModal ? true : false;
   const { orderNumber: editON, ...editValues } = order;
   //  const isEditSession = Boolean(editId);
   const isEditSession = Boolean(editON);
@@ -123,6 +134,15 @@ export default function CreateUpdateOrder({
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
+      {!isModal && (
+        <FormRow>
+          <StyledDiv>
+            <ButtonIcon onClick={() => navigate(-1)}>
+              <BiChevronLeftCircle style={{ height: "30px", width: "30px" }} />
+            </ButtonIcon>
+          </StyledDiv>
+        </FormRow>
+      )}
       <FormRow label="Order Number">
         {isEditSession ? (
           <InputON

@@ -24,8 +24,6 @@ function InvoicesTable() {
   // if (filterValue === "with-discount")
   //   filteredCabins = cabins.filter((c) => c.discount > 0);
 
-  // console.log(sortValue);
-
   // let sortedCabins = filteredCabins;
   // const [field, direction] = sortValue.split("-");
   // const modifier = direction === "asc" ? 1 : -1;
