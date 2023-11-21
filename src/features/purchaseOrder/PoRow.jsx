@@ -128,20 +128,6 @@ function PoRow({ purchaseOrder }) {
             isDisplay={false}
           />
         </Modal.Window>
-
-        {/* 
-              {showInvoice ? (
-
-              ) : (
-                <span></span>
-              )}
-
-            //--------------
-
-        <Modal.Window name="order-edit">
-          <CreateUpdateOrder order={order} isDisplay={false} />
-        </Modal.Window>
- */}
       </Modal>
     </Table.Row>
   );

@@ -20,6 +20,10 @@ import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import PayableInvoices from "./pages/PayableInvoices";
 import CreateUpdateOtherCosts from "./features/otherCosts/CreateUpdateOtherCosts";
+import Customers from "./pages/Customers";
+import CreateUpdateCustomer from "./features/customers/CreateUpdateCustomer";
+import Suppliers from "./pages/Suppliers";
+import CreateUpdateSupplier from "./features/suppliers/CreateUpdateSupplier";
 
 function App() {
   const queryClient = new QueryClient({
@@ -51,6 +55,10 @@ function App() {
               <Route path="payableInvoices" element={<PayableInvoices />} />
               <Route path="costs" element={<OtherCosts />} />
               <Route path="cost" element={<CreateUpdateOtherCosts />} />
+              <Route path="customers" element={<Customers />} />
+              <Route path="customer" element={<CreateUpdateCustomer />} />
+              <Route path="suppliers" element={<Suppliers />} />
+              <Route path="supplier" element={<CreateUpdateSupplier />} />
               <Route path="settings" element={<Settings />} />
               <Route path="account" element={<Account />} />
             </Route>
