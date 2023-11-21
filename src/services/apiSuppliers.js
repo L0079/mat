@@ -16,7 +16,7 @@ export async function getSuppliers() {
 //--------------- DELETE SUPPLIER -------------------------------------------------------------------------------------
 
 export async function deleteSupplier(id) {
-  const { error } = await supabase.from("supplier").delete().eq("id", id);
+  const { error } = await supabase.from("suppliers").delete().eq("id", id);
 
   if (error) {
     console.log(error);

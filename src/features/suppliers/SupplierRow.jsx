@@ -7,7 +7,7 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import CreateUpdateSupplier from "./CreateUpdateSupplier";
-// import { useDeleteCustomer } from "./useDeleteCustomer";
+import { useDeleteSupplier } from "./useDeleteSupplier";
 
 const Item = styled.div`
   //font-family: "Sono";
@@ -29,8 +29,8 @@ function SupplierRow({ supplier }) {
     phoneNumber,
   } = supplier;
   const paymentTerm = supplier.paymentTerms?.code;
-  // const { isDeleting, deleteSupplier } = useDeleteSupplier();
-  // const isBusy = isDeleting;
+  const { isDeleting, deleteSupplier } = useDeleteSupplier();
+  const isBusy = isDeleting;
 
   return (
     <Table.Row>
@@ -57,22 +57,21 @@ function SupplierRow({ supplier }) {
           </Menus.List>
         </Menus.Menu>
 
-        {/* 
-        <Modal.Window name="customer-delete">
-          <ConfirmDelete
-            resourceName={`customer ${customerName}`}
-            onConfirm={() => deleteCustomer(id)}
-            disabled={isBusy}
-            onCloseModal={() => {
-              return <Modal.Open opens="" />;
-            }}
-          />
-        </Modal.Window> */}
         <Modal.Window name="supplier-details">
           <CreateUpdateSupplier supplier={supplier} isDisplay={true} />
         </Modal.Window>
         <Modal.Window name="supplier-edit">
           <CreateUpdateSupplier supplier={supplier} />
+        </Modal.Window>
+        <Modal.Window name="supplier-delete">
+          <ConfirmDelete
+            resourceName={`supplier ${supplierName}`}
+            onConfirm={() => deleteSupplier(id)}
+            disabled={isBusy}
+            onCloseModal={() => {
+              return <Modal.Open opens="" />;
+            }}
+          />
         </Modal.Window>
       </Modal>
     </Table.Row>
