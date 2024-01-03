@@ -3,10 +3,11 @@ import { useSuppliers } from "./useSuppliers";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
+import Pagination from "../../ui/Pagination";
 import SupplierRow from "./SupplierRow";
 
 function SuppliersTable() {
-  const { isLoading, error, suppliers } = useSuppliers();
+  const { isLoading, error, suppliers, count } = useSuppliers();
 
   if (isLoading) return <Spinner />;
   if (error) return;
@@ -29,6 +30,9 @@ function SuppliersTable() {
             <SupplierRow supplier={supplier} key={supplier.id} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

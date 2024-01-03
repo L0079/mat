@@ -7,7 +7,7 @@ function Suppliers() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Suppliers</Heading>
+        <Heading as="h3">Suppliers</Heading>
         <SuppliersOperations />
       </Row>
       <SuppliersTable />

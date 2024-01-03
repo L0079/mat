@@ -6,30 +6,15 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import InvoiceRow from "./InvoiceRow";
+import Pagination from "../../ui/Pagination";
 
 function InvoicesTable() {
-  const { isLoading, error, invoices } = useInvoices();
+  const { isLoading, error, invoices, count } = useInvoices();
 
   if (isLoading) return <Spinner />;
   if (error) return;
 
   if (!invoices.length > 0) return <Empty resource={"invoices"} />;
-
-  // const filterValue = searchParams.get("discount") || "all";
-  // const sortValue = searchParams.get("sortBy") || "name-asc";
-
-  // let filteredCabins = cabins;
-  // if (filterValue === "no-discount")
-  //   filteredCabins = cabins.filter((c) => c.discount === 0);
-  // if (filterValue === "with-discount")
-  //   filteredCabins = cabins.filter((c) => c.discount > 0);
-
-  // let sortedCabins = filteredCabins;
-  // const [field, direction] = sortValue.split("-");
-  // const modifier = direction === "asc" ? 1 : -1;
-  // sortedCabins = filteredCabins.sort(
-  //   (a, b) => (a[field] - b[field]) * modifier
-  // );
 
   return (
     <Menus>
@@ -50,6 +35,9 @@ function InvoicesTable() {
             <InvoiceRow invoice={invoice} key={invoice.id} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

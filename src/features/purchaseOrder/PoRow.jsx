@@ -102,7 +102,7 @@ function PoRow({ purchaseOrder }) {
           />
         </Modal.Window>
 
-        <Modal.Window name="po-">
+        <Modal.Window name="po-edit">
           <CreateUpdatePO
             po={purchaseOrder}
             onCloseModal={() => {

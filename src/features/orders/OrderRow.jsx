@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Modal from "../../ui/Modal";
 import { format } from "date-fns";
 import { HiOutlinePencilSquare, HiOutlineEye, HiTrash } from "react-icons/hi2";
-import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
+import { LiaFileInvoiceDollarSolid, LiaMoneyBillAlt } from "react-icons/lia";
 
 import Table from "../../ui/Table";
 import { formatCurrency } from "../../utils/helpers";
@@ -12,6 +12,7 @@ import CreateUpdateInvoice from "../invoices/CreateUpdateInvoice";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteOrder } from "./useDeleteOrder";
 import CreateUpdateOrder from "./CreateUpdateOrder";
+import CreateUpdatePO from "../purchaseOrder/CreateUpdatePO";
 
 const Item = styled.div`
   //font-family: "Sono";
@@ -80,6 +81,9 @@ function OrderRow({ order }) {
             <Modal.Open opens="confirm-delete">
               <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
             </Modal.Open>
+            <Modal.Open opens="create-po">
+              <Menus.Button icon={<LiaMoneyBillAlt />}>Create PO</Menus.Button>
+            </Modal.Open>
           </Menus.List>
         </Menus.Menu>
 
@@ -97,6 +101,16 @@ function OrderRow({ order }) {
             resourceName={`order ${orderNumber}`}
             onConfirm={() => deleteOrder(orderNumber)}
             disabled={isBusy}
+            onCloseModal={() => {
+              return <Modal.Open opens="" />;
+            }}
+          />
+        </Modal.Window>
+
+        <Modal.Window name="create-po">
+          <CreateUpdatePO
+            orderNumber={orderNumber}
+            isDisplay={false}
             onCloseModal={() => {
               return <Modal.Open opens="" />;
             }}

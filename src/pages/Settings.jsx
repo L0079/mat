@@ -7,7 +7,7 @@ function Settings() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Settings</Heading>
+        <Heading as="h3">Settings</Heading>
       </Row>
       <Row>
         <SetFiscalYear />

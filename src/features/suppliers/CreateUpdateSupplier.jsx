@@ -154,9 +154,7 @@ export default function CreateUpdateSupplier({
         <Input
           type="text"
           id="PIVA"
-          {...register("PIVA", {
-            required: "this field is required",
-          })}
+          {...register("PIVA")}
           disabled={isDisabled}
         />
       </FormRow>

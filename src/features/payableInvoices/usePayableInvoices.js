@@ -6,11 +6,11 @@ import { PAGE_SIZE } from "../../utils/constants";
 
 export function usePayableInvoices() {
   const [searchParams] = useSearchParams();
-  //const filterValue = searchParams.get("status");
-  // const filter =
-  //   !filterValue || filterValue === "all"
-  //     ? null
-  //     : { field: "status", value: filterValue };
+  const filterValue = searchParams.get("statusId");
+  const filter =
+    !filterValue || filterValue === "0"
+      ? ""
+      : { field: "statusId", value: filterValue };
 
   // const sortByRaw = searchParams.get("sortBy")
   //   ? searchParams.get("sortBy")
@@ -29,8 +29,8 @@ export function usePayableInvoices() {
     //   queryFn: () => getBookings({ filter, sortBy, page }),
     // });
   } = useQuery({
-    queryKey: ["payableInvoices", page],
-    queryFn: () => getPayableInvoices({ page }),
+    queryKey: ["payableInvoices", page, filter],
+    queryFn: () => getPayableInvoices({ page, filter }),
   });
 
   // PRE_FETCHING
@@ -38,14 +38,14 @@ export function usePayableInvoices() {
   const pageCount = Math.ceil(count / PAGE_SIZE);
   if (page < pageCount)
     queryClient.prefetchQuery({
-      queryKey: ["payableInvoices", page + 1],
-      queryFn: () => getPayableInvoices({ page: page + 1 }),
+      queryKey: ["payableInvoices", page + 1, filter],
+      queryFn: () => getPayableInvoices({ page: page + 1, filter }),
     });
 
   if (page > 1)
     queryClient.prefetchQuery({
       queryKey: ["payableInvoices", page - 1],
-      queryFn: () => getPayableInvoices({ page: page - 1 }),
+      queryFn: () => getPayableInvoices({ page: page - 1, filter }),
     });
 
   // if (page < pageCount)

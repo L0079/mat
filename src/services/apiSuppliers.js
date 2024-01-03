@@ -1,16 +1,26 @@
 import supabase from "./supabase";
+import { PAGE_SIZE } from "../utils/constants";
 
-export async function getSuppliers() {
-  let query = supabase.from("suppliers").select("*, paymentTerms(code)");
+export async function getSuppliers({ page }) {
+  let query = supabase
+    .from("suppliers")
+    .select("*, paymentTerms(code)", { count: "exact" })
+    .order("supplier", { ascending: true });
 
-  const { data, error } = await query;
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     console.log(error);
     throw new Error("Cannot get Suppliers' data");
   }
 
-  return { data };
+  return { data, count };
 }
 
 //--------------- DELETE SUPPLIER -------------------------------------------------------------------------------------
@@ -28,8 +38,6 @@ export async function deleteSupplier(id) {
 //--------------- CREATE/UPDATE SUPPLIER ------------------------------------------------------------------------------
 
 export async function addUpdateSupplier(supplier, id) {
-  console.log("SDFSDF 1", supplier);
-  console.log("SDFSDF 2", id);
   let query;
   if (!id) {
     query = supabase.from("suppliers").insert([supplier]);

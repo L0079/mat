@@ -1,16 +1,25 @@
 import supabase from "./supabase";
+import { PAGE_SIZE } from "../utils/constants";
 
-export async function getCustomers() {
-  let query = supabase.from("customers").select("*, paymentTerms(code)");
+export async function getCustomers({ page }) {
+  let query = supabase
+    .from("customers")
+    .select("*, paymentTerms(code)", { count: "exact" })
+    .order("customer", { ascending: true });
 
-  const { data, error } = await query;
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query.range(from, to);
+  }
+  const { data, error, count } = await query;
 
   if (error) {
     console.log(error);
     throw new Error("Cannot get Customers' data");
   }
 
-  return { data };
+  return { data, count };
 }
 
 //--------------- DELETE CUSTOMER -------------------------------------------------------------------------------------

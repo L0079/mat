@@ -7,7 +7,7 @@ function PurchaseOrders() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Purchase Orders</Heading>
+        <Heading as="h3">Purchase Orders</Heading>
         <PurchaseOrderOperations />
       </Row>
       <PoTable />

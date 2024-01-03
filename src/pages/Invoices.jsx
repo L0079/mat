@@ -7,7 +7,7 @@ function Invoices() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Invoices</Heading>
+        <Heading as="h3">Invoices</Heading>
         <InvoiceOperations />
       </Row>
       <InvoicesTable />

@@ -29,8 +29,11 @@ function Select({
     <StyledSelect
       name={name}
       id={name}
-      onChange={(e) => handleChange(e)}
-      {...register(name, { required: required })}
+      // onChange={(e) => handleChange(e)}
+      {...register(name, {
+        required: required,
+        onChange: (e) => handleChange(e),
+      })}
       disabled={disabled}
     >
       {options.map((opt) => (

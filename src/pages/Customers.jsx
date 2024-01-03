@@ -7,7 +7,7 @@ function Customers() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Customers</Heading>
+        <Heading as="h3">Customers</Heading>
         <CustomersOperations />
       </Row>
       <CustomersTable />

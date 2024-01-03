@@ -6,9 +6,10 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import PayableInvoiceRow from "./PayableInvoiceRow";
+import Pagination from "../../ui/Pagination";
 
 function PayableInvoicesTable() {
-  const { isLoading, error, payableInvoices } = usePayableInvoices();
+  const { isLoading, error, payableInvoices, count } = usePayableInvoices();
 
   if (isLoading) return <Spinner />;
   if (error) return;
@@ -42,6 +43,9 @@ function PayableInvoicesTable() {
             />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

@@ -3,7 +3,7 @@ import { PAGE_SIZE } from "../utils/constants";
 
 //--------------- GET ORDERS ------------------------------------------------------------------------------------------
 //export async function getOrders({ filter, sortBy, page }) {
-export async function getOrders({ page }) {
+export async function getOrders({ page, filter }) {
   let query = supabase
     .from("orders")
     .select(
@@ -11,10 +11,11 @@ export async function getOrders({ page }) {
       {
         count: "exact",
       }
-    );
+    )
+    .order("orderDate", { ascending: false });
 
-  // if (filter)
-  //   query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
+  if (filter)
+    query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
   // if (sortBy)
   //   query = query.order(sortBy.field, {
   //     ascending: sortBy.direction === "asc",

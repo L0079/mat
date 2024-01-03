@@ -1,10 +1,19 @@
-import ButtonIconOperations from "../../ui/ButtonIconOperations";
 import TableOperations from "../../ui/TableOperations";
+import Filter from "../../ui/Filter";
 
 function PayableInvoiceOperations() {
   return (
     <TableOperations>
-      <ButtonIconOperations></ButtonIconOperations>
+      <Filter
+        filteredField="statusId"
+        options={[
+          { value: 0, label: "all" },
+          { value: 1, label: "waiting" },
+          { value: 2, label: "received" },
+          { value: 3, label: "registered" },
+          { value: 4, label: "paid" },
+        ]}
+      />
     </TableOperations>
   );
 }

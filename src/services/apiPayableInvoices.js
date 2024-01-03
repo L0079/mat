@@ -4,7 +4,7 @@ import { PAGE_SIZE } from "../utils/constants";
 
 //--------------- GET PAYABLE INVOICES --------------------------------------------------------------------------------
 //export async function getInvoices({ filter, sortBy, page }) {
-export async function getPayableInvoices({ page }) {
+export async function getPayableInvoices({ page, filter }) {
   let query = supabase
     .from("payableInvoices")
     .select(
@@ -14,8 +14,8 @@ export async function getPayableInvoices({ page }) {
       }
     );
 
-  // if (filter)
-  //   query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
+  if (filter)
+    query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
   // if (sortBy)
   //   query = query.order(sortBy.field, {
   //     ascending: sortBy.direction === "asc",
@@ -37,7 +37,6 @@ export async function getPayableInvoices({ page }) {
 
 export async function addUpdatePayableInvoice(payableInvoice, id) {
   //--- Get order and verify that the invpoice amount is less or equal ti the invoice amount
-  console.log("PONUMBER", payableInvoice.poNumber);
   const queryPurchaseOrders = supabase
     .from("purchaseOrders")
     .select("toBePaid")
@@ -47,7 +46,6 @@ export async function addUpdatePayableInvoice(payableInvoice, id) {
     .select()
     .single();
 
-  console.log("PONUMBER 1");
   if (poError) {
     console.log(poError);
     throw new Error("Cannot find the related purchase order");
@@ -84,7 +82,6 @@ export async function addUpdatePayableInvoice(payableInvoice, id) {
     );
   }
 
-  console.log("PONUMBER 2");
   //--- Insert invoice
   let query;
   if (!id) {
@@ -97,7 +94,6 @@ export async function addUpdatePayableInvoice(payableInvoice, id) {
   }
   //  const { data, error } = await query.select().single(); //torna direttamente l'oggetto e non un array di oggetti con un solo elemento
   const { error } = await query.select();
-  console.log("PONUMBER 3");
 
   if (error) {
     console.log(error);

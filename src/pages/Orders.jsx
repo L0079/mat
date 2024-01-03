@@ -7,7 +7,7 @@ function Orders() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Orders</Heading>
+        <Heading as="h3">Orders</Heading>
         <OrderOperations />
       </Row>
       <OrdersTable />

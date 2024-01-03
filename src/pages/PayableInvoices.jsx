@@ -3,11 +3,11 @@ import Row from "../ui/Row";
 import PayableInvoicesTable from "../features/payableInvoices/PayableInvoicesTable";
 import PayableInvoiceOperations from "../features/PayableInvoices/PayableInvoiceOperations";
 
-function Invoices() {
+function PayableInvoices() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Payable Invoices</Heading>
+        <Heading as="h3">Payable Invoices</Heading>
         <PayableInvoiceOperations />
       </Row>
       <PayableInvoicesTable />
@@ -15,4 +15,4 @@ function Invoices() {
   );
 }
 
-export default Invoices;
+export default PayableInvoices;

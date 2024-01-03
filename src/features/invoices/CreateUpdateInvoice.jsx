@@ -54,7 +54,9 @@ function CreateUpdateInvoice({
   const isEditSession = Object.keys(invoice).length > 0;
   const editId = isEditSession ? invoice?.id : null;
   const { register, handleSubmit, reset, formState } = useForm({
-    defaultValues: isEditSession ? invoice : invoiceCustomer,
+    defaultValues: isEditSession
+      ? invoice
+      : { ...invoiceCustomer, amount: invoiceCustomer.toBeBilled },
   });
   const { errors } = formState;
 
@@ -77,8 +79,9 @@ function CreateUpdateInvoice({
           value: 22,
         }
   );
+
   const [amount, setAmount] = useState(
-    isEditSession ? invoice?.amount : invoiceCustomer?.amount
+    isEditSession ? invoice?.amount : invoiceCustomer?.toBeBilled
   );
   const totalAmount = tcode
     ? tcode.type === "percentage"
@@ -119,6 +122,7 @@ function CreateUpdateInvoice({
         PIVA,
         SDIcode,
         totalAmount,
+        costCenterId: values.costCenterId,
         paymentTermsId: values.paymentTermsId,
         amount: values.amount,
         invoiceDate: values.invoiceDate,
@@ -146,7 +150,7 @@ function CreateUpdateInvoice({
   }
 
   function handleTaxSelect(e) {
-    setTcode(taxCodes.filter((t) => t.id === e.target.value)[0]);
+    setTcode(taxCodes.filter((t) => t.id === Number(e.target.value))[0]);
   }
   function changeAmount(e) {
     setAmount(Number(e.target.value));
@@ -168,6 +172,7 @@ function CreateUpdateInvoice({
       <FormRow label="Amount" error={errors?.amount?.message}>
         <Input
           type="number"
+          step="0.01"
           id="amount"
           {...register("amount", {
             required: "this field is required",
@@ -252,7 +257,7 @@ function CreateUpdateInvoice({
           name="costCenterId"
           id="costCenterId"
           valueName="id"
-          labelName="costCenter"
+          labelName="description"
           options={costCenters}
           register={register}
           disabled={isDisabled}

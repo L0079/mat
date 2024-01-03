@@ -6,9 +6,10 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import PoRow from "./PoRow";
+import Pagination from "../../ui/Pagination";
 
 function PoTable() {
-  const { isLoading, error, purchaseOrders } = usePurchaseOrders();
+  const { isLoading, error, purchaseOrders, count } = usePurchaseOrders();
 
   if (isLoading) return <Spinner />;
   if (error) return;
@@ -37,6 +38,9 @@ function PoTable() {
             <PoRow purchaseOrder={purchaseOrder} key={purchaseOrder.id} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

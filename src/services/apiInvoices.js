@@ -4,7 +4,7 @@ import { PAGE_SIZE } from "../utils/constants";
 
 //--------------- GET INVOICES ----------------------------------------------------------------------------------------
 //export async function getInvoices({ filter, sortBy, page }) {
-export async function getInvoices({ page }) {
+export async function getInvoices({ page, filter }) {
   let query = supabase
     .from("invoicesHeader")
     .select(
@@ -12,14 +12,17 @@ export async function getInvoices({ page }) {
       {
         count: "exact",
       }
-    );
+    )
+    .order("invoiceDate", { ascending: true });
 
-  // if (filter)
-  //   query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
+  if (filter)
+    query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
   // if (sortBy)
   //   query = query.order(sortBy.field, {
   //     ascending: sortBy.direction === "asc",
   //   });
+  //console.log(page);
+
   if (page) {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;

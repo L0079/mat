@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./features/authentication/ProtectedRoute";
 import DarkModeProvider from "./context/DarkModeContext";
 import AppLayout from "./ui/AppLayout";
-import Dashboard from "./pages/Dashboard";
+import Quarters from "./pages/Quarters";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import Invoices from "./pages/Invoices";
@@ -24,6 +24,9 @@ import Customers from "./pages/Customers";
 import CreateUpdateCustomer from "./features/customers/CreateUpdateCustomer";
 import Suppliers from "./pages/Suppliers";
 import CreateUpdateSupplier from "./features/suppliers/CreateUpdateSupplier";
+import Home from "./pages/Home";
+import InvoicesStatus from "./pages/InvoicesStatus";
+import OrderStatus from "./pages/OrderStatus";
 
 function App() {
   const queryClient = new QueryClient({
@@ -45,8 +48,11 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              <Route index element={<Navigate replace to="dashboard" />} />
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route index element={<Navigate replace to="home" />} />
+              <Route path="home" element={<Home />} />
+              <Route path="quarters" element={<Quarters />} />
+              <Route path="invoicesStatus" element={<InvoicesStatus />} />
+              <Route path="orderStatus" element={<OrderStatus />} />
               <Route path="invoices" element={<Invoices />} />
               <Route path="orders" element={<Orders />} />
               <Route path="order" element={<CreateUpdateOrder />} />

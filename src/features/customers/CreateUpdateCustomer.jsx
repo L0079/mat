@@ -132,6 +132,7 @@ export default function CreateUpdateCustomers({
   const isDisabled = isDisplay || isCreatingCustomer || isUpdatingCustomer;
 
   if (isLoadingPaymentTerms || isLoadingCustomers) return <Spinner />;
+  const groups = customers.filter((e) => e.parentCompany === true);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -285,7 +286,7 @@ export default function CreateUpdateCustomers({
               id="parentCompanyId"
               valueName="id"
               labelName="customer"
-              options={customers}
+              options={groups}
               register={register}
               disabled={isDisabled}
             />

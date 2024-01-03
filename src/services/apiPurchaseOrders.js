@@ -3,7 +3,7 @@ import { PAGE_SIZE } from "../utils/constants";
 
 //--------------- GET ORDERS ------------------------------------------------------------------------------------------
 //export async function getOrders({ filter, sortBy, page }) {
-export async function getPurchaseOrders({ page }) {
+export async function getPurchaseOrders({ page, filter }) {
   let query = supabase
     .from("purchaseOrders")
     .select(
@@ -13,10 +13,8 @@ export async function getPurchaseOrders({ page }) {
       }
     );
 
-  // , paymentTerms(id, code)
-
-  // if (filter)
-  //   query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
+  if (filter)
+    query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
   // if (sortBy)
   //   query = query.order(sortBy.field, {
   //     ascending: sortBy.direction === "asc",
@@ -38,8 +36,6 @@ export async function getPurchaseOrders({ page }) {
 //--------------- CREATE/UPDATE ORDER ---------------------------------------------------------------------------------
 
 export async function addUpdatePurchaseOrder(purchaseOrder, poNumber) {
-  console.log("POD", purchaseOrder);
-  console.log("PON", poNumber);
   let query;
   if (!poNumber) {
     query = supabase.from("purchaseOrders").insert([purchaseOrder]);

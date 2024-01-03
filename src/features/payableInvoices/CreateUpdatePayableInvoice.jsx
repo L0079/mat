@@ -15,12 +15,11 @@ import { usePaymentTerms } from "../paymentTerms/usePaymentTerms";
 import { useCreatePayableInvoice } from "./useInsertPayableInvoice";
 import { useUpdatePayableInvoice } from "./useUpdatePayableInvoice";
 import { useCC } from "../costProfitCenters/useCC";
-
-import { PAYABLE_INVOICE_RECEIVED_STATUS_ID } from "../../utils/constants";
+import { PAYABLE_WAITING_STATUS_ID } from "../../utils/constants";
 
 const Item = styled.span`
   //font-family: "Sono";
-  text-align: center;
+  text-align: left;
   font-weight: 500;
 `;
 
@@ -31,6 +30,17 @@ const ButtonsDiv = styled.div`
   margin-right: 8%;
   display: flex;
   justify-content: space-between;
+`;
+
+const ClickableDiv = styled.div`
+  //font-family: "Sono";
+  margin-left: 8%;
+  margin-right: 8%;
+  background-color: var(--color-indigo-100);
+  max-width: 10rem;
+  padding: 0.5rem;
+  text-align: center;
+  border-radius: 5px;
 `;
 
 function CreateUpdatePayableInvoice({
@@ -53,26 +63,36 @@ function CreateUpdatePayableInvoice({
 
   const isEditSession = Object.keys(payableInvoice).length > 0;
   const editId = isEditSession ? payableInvoice?.id : null;
-  const { register, handleSubmit, reset, formState } = useForm({
-    defaultValues: isEditSession ? payableInvoice : purchaseOrder,
-  });
-  const { errors } = formState;
 
   const { isLoading: isLoadingPaymentTerms, paymentTerms } = usePaymentTerms();
   const { isLoading: isLoadingCC, costCenters } = useCC("Cost");
 
   const [amount, setAmount] = useState(
-    isEditSession ? payableInvoice?.amount : purchaseOrder?.amount
+    isEditSession ? payableInvoice?.amount : purchaseOrder?.toBePaid
   );
+
+  // if it is a new payable invoice default taxes to 22%, the user could modify it
   const [taxes, setTaxes] = useState(
     isEditSession
       ? payableInvoice?.totalAmount - payableInvoice?.amount
-      : purchaseOrder?.totalAmount - purchaseOrder?.amount
+      : Number((Number(purchaseOrder?.toBePaid) * 0.22).toFixed(2))
   );
-  const totalAmount = amount + taxes;
+  const totalAmount = Number((amount + taxes).toFixed(2));
 
   const { isCreating, createPayableInvoice } = useCreatePayableInvoice();
   const { isUpdating, updatePayableInvoice } = useUpdatePayableInvoice();
+
+  const { register, handleSubmit, reset, resetField, formState } = useForm({
+    defaultValues: isEditSession
+      ? payableInvoice
+      : {
+          ...purchaseOrder,
+          amount: amount,
+          taxes: taxes,
+          totalAmount: totalAmount,
+        },
+  });
+  const { errors } = formState;
 
   function onSubmit(data) {
     const values = { ...data };
@@ -104,7 +124,7 @@ function CreateUpdatePayableInvoice({
         paymentTermsId: values.paymentTermsId,
         invoiceDate: values.invoiceDate,
         paymentDate: values.paymentDate,
-        statusId: PAYABLE_INVOICE_RECEIVED_STATUS_ID,
+        statusId: PAYABLE_WAITING_STATUS_ID,
         poNumber,
         note: values.note,
         duePaymentDate: values.duePaymentDate,
@@ -131,6 +151,10 @@ function CreateUpdatePayableInvoice({
     setAmount(0);
     setTaxes(0);
     reset();
+  }
+  function setTo22() {
+    setTaxes(Number(((amount * 22) / 100).toFixed(2)));
+    resetField("taxes", { defaultValue: taxes });
   }
 
   const isBusy = isLoadingPaymentTerms || isLoadingCC;
@@ -170,6 +194,7 @@ function CreateUpdatePayableInvoice({
       <FormRow label="Amount" error={errors?.amount?.message}>
         <Input
           type="number"
+          step="0.01"
           id="amount"
           {...register("amount", {
             required: "this field is required",
@@ -185,8 +210,9 @@ function CreateUpdatePayableInvoice({
       <FormRow label="Taxes">
         <Input
           type="number"
+          step="0.01"
           id="taxes"
-          defaultValue={taxes}
+          // defaultValue={taxes}
           {...register("taxes", {
             onChange: (e) => {
               changeTaxes(e);
@@ -194,6 +220,12 @@ function CreateUpdatePayableInvoice({
           })}
           disabled={isDisabled}
         />
+
+        <Item>
+          <ClickableDiv onClick={() => (isDisabled ? null : setTo22())}>
+            SET to 22%
+          </ClickableDiv>
+        </Item>
       </FormRow>
 
       <FormRow label="Total Amount">

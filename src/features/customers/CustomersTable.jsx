@@ -4,9 +4,10 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import CustomerRow from "./CustomerRow";
+import Pagination from "../../ui/Pagination";
 
 function CustomersTable() {
-  const { isLoading, error, customers } = useCustomers();
+  const { isLoading, error, customers, count } = useCustomers();
 
   if (isLoading) return <Spinner />;
   if (error) return;
@@ -30,6 +31,9 @@ function CustomersTable() {
             <CustomerRow customer={customer} key={customer.id} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

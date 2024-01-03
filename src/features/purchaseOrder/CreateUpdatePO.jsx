@@ -93,14 +93,18 @@ const StyledSpanCheck = styled.span`
 function CreateUpdatePO({
   po = {},
   order = {},
+  orderNumber = null,
   onCloseModal,
   isDisplay = false,
 }) {
   const isModal = onCloseModal ? true : false;
   const { poNumber: editON, ...editValues } = po;
   const isEditSession = Boolean(editON);
+  const isOrderNumber = orderNumber !== null;
   const { register, handleSubmit, reset, formState } = useForm({
-    defaultValues: isEditSession
+    defaultValues: orderNumber
+      ? { orderNumber: orderNumber }
+      : isEditSession
       ? editValues
       : Object.keys(order).length > 0
       ? order
@@ -127,7 +131,7 @@ function CreateUpdatePO({
   });
   const totalAmount = tcode
     ? tcode.type === "percentage"
-      ? amount + (amount * Number(tcode.value)) / 100
+      ? (amount + (amount * Number(tcode.value)) / 100).toFixed(2)
       : amount + Number(tcode.value)
     : amount;
 
@@ -193,7 +197,7 @@ function CreateUpdatePO({
   }
 
   function handleTaxSelect(e) {
-    setTcode(taxCodes.filter((t) => t.id === e.target.value)[0]);
+    setTcode(taxCodes.filter((t) => t.id === Number(e.target.value))[0]);
   }
 
   const isBusy =
@@ -318,16 +322,22 @@ function CreateUpdatePO({
               type="string"
               id="orderNumber"
               {...register("orderNumber")}
-              disabled={isDisabled || isInternalPO}
+              disabled={isDisabled || isInternalPO || isOrderNumber}
             />
-            <div>
-              <InputCheck
-                type="checkbox"
-                defaultChecked={isInternalPO}
-                onClick={() => setIsInternalPO((isInternalPO) => !isInternalPO)}
-              />
-              <StyledSpanCheck>Internal</StyledSpanCheck>
-            </div>
+            {isOrderNumber ? (
+              <div></div>
+            ) : (
+              <div>
+                <InputCheck
+                  type="checkbox"
+                  defaultChecked={isInternalPO}
+                  onClick={() =>
+                    setIsInternalPO((isInternalPO) => !isInternalPO)
+                  }
+                />
+                <StyledSpanCheck>Internal</StyledSpanCheck>
+              </div>
+            )}
           </>
         ) : isInternalPO ? (
           <ItemIU>Internal Use</ItemIU>
@@ -378,6 +388,7 @@ function CreateUpdatePO({
 }
 CreateUpdatePO.propTypes = {
   po: PropTypes.object,
+  orderNumber: PropTypes.string,
   order: PropTypes.object,
   onCloseModal: PropTypes.func,
   isDisplay: PropTypes.bool,

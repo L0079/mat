@@ -8,6 +8,7 @@ import {
   HiTrash,
   HiOutlineCurrencyEuro,
   HiOutlineBookOpen,
+  HiOutlineEnvelope,
 } from "react-icons/hi2";
 
 import Tag from "../../ui/Tag";
@@ -18,33 +19,12 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import ConfirmStatusChange from "../../ui/ConfirmStatusChange";
 import PayableInvoicePaid from "./PayableInvoicePaid";
 import { useDeletePayableInvoice } from "./useDeletePayableInvoice";
-import { PAYABLE_REGISTERED_STATUS_ID } from "../../utils/constants";
+import {
+  PAYABLE_RECEIVED_STATUS_ID,
+  PAYABLE_REGISTERED_STATUS_ID,
+} from "../../utils/constants";
 import CreateUpdatePayableInvoice from "./CreateUpdatePayableInvoice";
 import { useUpdatePayableInvoiceStatus } from "./useUpdatePayableInvoiceStatus";
-
-//import ConfirmDelete from "../../ui/ConfirmDelete";
-
-// const Invoice = styled.div`
-//   font-size: 1.6rem;
-//   font-weight: 600;
-//   color: var(--color-grey-600);
-//   font-family: "Sono";
-// `;
-
-// const Stacked = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: 0.2rem;
-
-//   & span:first-child {
-//     font-weight: 500;
-//   }
-
-//   & span:last-child {
-//     color: var(--color-grey-500);
-//     font-size: 1.2rem;
-//   }
-// `;
 
 const Amount = styled.div`
   //font-family: "Sono";
@@ -81,6 +61,7 @@ function PayableInvoiceRow({ payableInvoice }) {
   } = payableInvoice;
 
   const statusToTagName = {
+    waiting: "green",
     received: "blue",
     registered: "indigo",
     paid: "silver",
@@ -109,24 +90,34 @@ function PayableInvoiceRow({ payableInvoice }) {
               <Menus.Button icon={<HiOutlineEye />}>Details</Menus.Button>
             </Modal.Open>
 
+            {(status === "waiting" || status === "received") && (
+              <Modal.Open opens="payable-invoice-edit">
+                <Menus.Button icon={<HiOutlinePencilSquare />}>
+                  Edit
+                </Menus.Button>
+              </Modal.Open>
+            )}
+
+            {status === "waiting" && (
+              <Modal.Open opens="payable-invoice-arrival">
+                <Menus.Button icon={<HiOutlineEnvelope />}>
+                  Received
+                </Menus.Button>
+              </Modal.Open>
+            )}
+
             {status === "received" && (
-              <>
-                <Modal.Open opens="payable-invoice-edit">
-                  <Menus.Button icon={<HiOutlinePencilSquare />}>
-                    Edit
-                  </Menus.Button>
-                </Modal.Open>
+              <Modal.Open opens="payable-invoice-register">
+                <Menus.Button icon={<HiOutlineBookOpen />}>
+                  Register
+                </Menus.Button>
+              </Modal.Open>
+            )}
 
-                <Modal.Open opens="payable-invoice-register">
-                  <Menus.Button icon={<HiOutlineBookOpen />}>
-                    Register
-                  </Menus.Button>
-                </Modal.Open>
-
-                <Modal.Open opens="confirm-delete">
-                  <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
-                </Modal.Open>
-              </>
+            {status === "waiting" && (
+              <Modal.Open opens="confirm-delete">
+                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              </Modal.Open>
             )}
 
             {status === "registered" && (
@@ -163,6 +154,22 @@ function PayableInvoiceRow({ payableInvoice }) {
             resourceName={`invoice ${invoiceNumber}`}
             onConfirm={() => deletePayableInvoice(paId)}
             disabled={isBusy}
+            onCloseModal={() => {
+              return <Modal.Open opens="" />;
+            }}
+          />
+        </Modal.Window>
+
+        <Modal.Window name="payable-invoice-arrival">
+          <ConfirmStatusChange
+            resourceName={`payable invoice ${invoiceNumber}`}
+            newStatus="RECEIVED"
+            onConfirm={() =>
+              updatePayableInvoice({
+                payableInvoice: { statusId: PAYABLE_RECEIVED_STATUS_ID },
+                id: paId,
+              })
+            }
             onCloseModal={() => {
               return <Modal.Open opens="" />;
             }}

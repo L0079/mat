@@ -6,9 +6,10 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import OrderRow from "./OrderRow";
+import Pagination from "../../ui/Pagination";
 
 function OrdersTable() {
-  const { isLoading, error, orders } = useOrders();
+  const { isLoading, error, orders, count } = useOrders();
 
   if (isLoading) return <Spinner />;
   if (error) return;
@@ -35,6 +36,9 @@ function OrdersTable() {
           data={orders}
           render={(order) => <OrderRow order={order} key={order.id} />}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

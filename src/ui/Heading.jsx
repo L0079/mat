@@ -26,14 +26,11 @@ const Heading = styled.h1`
       line-height: 1;
     `}
 
+
     ${(props) =>
-    props.as === "h4" &&
+    props.type === "tableHeader" &&
     css`
-      font-size: 2rem;
-      font-weight: 600;
-      text-align: center;
       margin-top: 30px;
-      line-height: 1;
     `}
 `;
 
