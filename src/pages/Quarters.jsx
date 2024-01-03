@@ -1,4 +1,4 @@
-import QuartesTable from "../features/dashboard/quartersTable";
+import QuartesTable from "../features/dashboard/QuartersTable";
 
 function Quarters() {
   return (
