@@ -27,6 +27,7 @@ import CreateUpdateSupplier from "./features/suppliers/CreateUpdateSupplier";
 import Home from "./pages/Home";
 import InvoicesStatus from "./pages/InvoicesStatus";
 import OrderStatus from "./pages/OrderStatus";
+import CashFlowPage from "./pages/CashFlowPage";
 
 function App() {
   const queryClient = new QueryClient({
@@ -53,6 +54,7 @@ function App() {
               <Route path="quarters" element={<Quarters />} />
               <Route path="invoicesStatus" element={<InvoicesStatus />} />
               <Route path="orderStatus" element={<OrderStatus />} />
+              <Route path="cashflow" element={<CashFlowPage />} />
               <Route path="invoices" element={<Invoices />} />
               <Route path="orders" element={<Orders />} />
               <Route path="order" element={<CreateUpdateOrder />} />

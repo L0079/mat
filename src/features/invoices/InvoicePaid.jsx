@@ -44,7 +44,7 @@ function InvoicePaid({ invoice = {}, onCloseModal }) {
 
     updateInvoice(
       {
-        invoice: { ...values, statusId: PAID_STATUS_ID, paymentDate },
+        invoice: { ...values, statusId: PAID_STATUS_ID },
         id: editId,
       },
       {

@@ -35,3 +35,4 @@ export const OTHER_COSTS_CREATED_STATUS_ID = 1;
 export const OTHER_COSTS_DEFAULT_DOC = 2;
 export const OTHER_COSTS_REGISTERED_STATUS_ID = 2;
 export const OTHER_COSTS_PAID_ID = 3;
+export const SPLIT_PAYMENT_ID = 5;

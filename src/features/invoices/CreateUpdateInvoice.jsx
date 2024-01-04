@@ -17,8 +17,11 @@ import { usePaymentTerms } from "../paymentTerms/usePaymentTerms";
 import { useCreateInvoice } from "./useInsertInvoice";
 import { useUpdateInvoice } from "./useUpdateInvoice";
 import { useCC } from "../costProfitCenters/useCC";
-
-import { invoiceDefaultValues, CREATED_STATUS_ID } from "../../utils/constants";
+import {
+  invoiceDefaultValues,
+  CREATED_STATUS_ID,
+  SPLIT_PAYMENT_ID,
+} from "../../utils/constants";
 
 const Item = styled.span`
   //font-family: "Sono";
@@ -33,6 +36,12 @@ const ButtonsDiv = styled.div`
   margin-right: 8%;
   display: flex;
   justify-content: space-between;
+`;
+
+const Stacked = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 `;
 
 function CreateUpdateInvoice({
@@ -134,6 +143,8 @@ function CreateUpdateInvoice({
       };
       if (values.duePaymentDate)
         insValues = { ...insValues, duePaymentDate: values.duePaymentDate };
+      if (!values.taxCodeId)
+        insValues = { ...insValues, taxCodeId: SPLIT_PAYMENT_ID };
 
       createInvoice(insValues, {
         onSuccess: () => {
@@ -251,6 +262,12 @@ function CreateUpdateInvoice({
           disabled={isDisabled}
         />
       </FormRow>
+
+      {isDisplay && invoice?.paymentDate && (
+        <FormRow label="Payment Date">
+          <Stacked id="Due Payment Date">{invoice?.paymentDate}</Stacked>
+        </FormRow>
+      )}
 
       <FormRow label="Profit Center" error={errors?.costCenterId?.message}>
         <Select

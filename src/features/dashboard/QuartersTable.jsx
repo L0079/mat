@@ -8,6 +8,7 @@ import { useInvoicesNoPage } from "./useInvoicesNoPage";
 import { useOrdersGetToBeBilled } from "./useOrdersGetToBeBilled";
 import { usePayableInvoicesNoPage } from "./usePayableInvoicesNoPage";
 import { usePurchaseOrdersGetToBePaid } from "./usePurchaseOrdersGetToBePaid";
+import { useFiscalYear } from "../settings/useFiscalYear";
 
 const StyledTable = styled.table`
   border: 1px solid var(--color-grey-200);
@@ -65,9 +66,6 @@ const Row = styled.div`
 `;
 
 function QuartesTable() {
-  //----------
-  const fiscalYear = 2024;
-  //----------
   function reduceMonth(inv, fy, month) {
     const monthTotal = inv.reduce(function (acc, inv) {
       let amt = 0;
@@ -104,11 +102,19 @@ function QuartesTable() {
   } = usePayableInvoicesNoPage();
   const { isLoading: isLoadingPurchaseOrders, ordersToBePaid } =
     usePurchaseOrdersGetToBePaid();
+  const { isLoading: isLoadingFY, fiscalYear: fyObj } = useFiscalYear();
 
-  if (isLoading || isLoadingOrders || isLoadingPI || isLoadingPurchaseOrders)
+  if (
+    isLoading ||
+    isLoadingOrders ||
+    isLoadingPI ||
+    isLoadingPurchaseOrders ||
+    isLoadingFY
+  )
     return <Spinner />;
   if (error || errorPI) return;
 
+  const fiscalYear = fyObj.fiscalYear;
   if (!invoices.length > 0) return <Empty resource={"invoices"} />;
 
   const toBeBilled = ordersToBeBilled?.reduce(function (acc, ord) {

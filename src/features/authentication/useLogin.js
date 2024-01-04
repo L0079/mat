@@ -14,7 +14,7 @@ export function useLogin() {
     onSuccess: (user) => {
       //console.log("A1A", user);
       queryClient.setQueryData([user], user.user); //Set user data in cash
-      navigate("/dashboard");
+      navigate("/home");
     },
     onError: (error) => toast.error(error.message),
   });

@@ -180,6 +180,12 @@ function MainNav() {
                 <span>Order Status</span>
               </StyledNavLinkInner>
             </li>
+            <li>
+              <StyledNavLinkInner to="/cashflow">
+                <MdOutlineDashboard />
+                <span>Cash Flow</span>
+              </StyledNavLinkInner>
+            </li>
           </NavListInner>
         )}
         <li>
