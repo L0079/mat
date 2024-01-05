@@ -9,6 +9,7 @@ import { useOrdersGetToBeBilled } from "./useOrdersGetToBeBilled";
 import { usePayableInvoicesNoPage } from "./usePayableInvoicesNoPage";
 import { usePurchaseOrdersGetToBePaid } from "./usePurchaseOrdersGetToBePaid";
 import { useFiscalYear } from "../settings/useFiscalYear";
+import { FY_MONTHS } from "../../utils/constants";
 
 const StyledTable = styled.table`
   border: 1px solid var(--color-grey-200);
@@ -76,14 +77,8 @@ function QuartesTable() {
       const month2 = month === 12 ? 1 : month + 1;
 
       if (
-        isAfter(
-          parseISO(inv.invoiceDate),
-          new Date(Number(fy1), Number(month1) - 1, Number(day1))
-        ) &&
-        isBefore(
-          parseISO(inv.invoiceDate),
-          new Date(Number(fy2), Number(month2) - 1, 1)
-        )
+        isAfter(parseISO(inv.invoiceDate), new Date(Number(fy1), Number(month1) - 1, Number(day1))) &&
+        isBefore(parseISO(inv.invoiceDate), new Date(Number(fy2), Number(month2) - 1, 1))
       ) {
         amt = inv.amount;
       }
@@ -93,25 +88,12 @@ function QuartesTable() {
   }
 
   const { isLoading, error, invoices } = useInvoicesNoPage();
-  const { isLoading: isLoadingOrders, ordersToBeBilled } =
-    useOrdersGetToBeBilled();
-  const {
-    isLoading: isLoadingPI,
-    error: errorPI,
-    payableInvoices,
-  } = usePayableInvoicesNoPage();
-  const { isLoading: isLoadingPurchaseOrders, ordersToBePaid } =
-    usePurchaseOrdersGetToBePaid();
+  const { isLoading: isLoadingOrders, ordersToBeBilled } = useOrdersGetToBeBilled();
+  const { isLoading: isLoadingPI, error: errorPI, payableInvoices } = usePayableInvoicesNoPage();
+  const { isLoading: isLoadingPurchaseOrders, ordersToBePaid } = usePurchaseOrdersGetToBePaid();
   const { isLoading: isLoadingFY, fiscalYear: fyObj } = useFiscalYear();
 
-  if (
-    isLoading ||
-    isLoadingOrders ||
-    isLoadingPI ||
-    isLoadingPurchaseOrders ||
-    isLoadingFY
-  )
-    return <Spinner />;
+  if (isLoading || isLoadingOrders || isLoadingPI || isLoadingPurchaseOrders || isLoadingFY) return <Spinner />;
   if (error || errorPI) return;
 
   const fiscalYear = fyObj.fiscalYear;
@@ -166,22 +148,9 @@ function QuartesTable() {
         <StyledCaption>Turnover on order received</StyledCaption>
         <thead>
           <StyledHeader>
-            <StyledTH>JAN</StyledTH>
-            <StyledTH>FEB</StyledTH>
-            <StyledTH>MAR</StyledTH>
-            <StyledTH>Q1</StyledTH>
-            <StyledTH>APR</StyledTH>
-            <StyledTH>MAY</StyledTH>
-            <StyledTH>JUN</StyledTH>
-            <StyledTH>Q2</StyledTH>
-            <StyledTH>JUL</StyledTH>
-            <StyledTH>AUG</StyledTH>
-            <StyledTH>SEP</StyledTH>
-            <StyledTH>Q3</StyledTH>
-            <StyledTH>OCT</StyledTH>
-            <StyledTH>NOV</StyledTH>
-            <StyledTH>DEC</StyledTH>
-            <StyledTH>Q4</StyledTH>
+            {FY_MONTHS.map((e, idx) => (
+              <StyledTH key={idx}>{e}</StyledTH>
+            ))}
             <StyledTH>Turnover</StyledTH>
           </StyledHeader>
         </thead>
@@ -213,22 +182,9 @@ function QuartesTable() {
         <StyledCaption>Costs due to purchase orders</StyledCaption>
         <thead>
           <StyledHeader>
-            <StyledTH>JAN</StyledTH>
-            <StyledTH>FEB</StyledTH>
-            <StyledTH>MAR</StyledTH>
-            <StyledTH>Q1</StyledTH>
-            <StyledTH>APR</StyledTH>
-            <StyledTH>MAY</StyledTH>
-            <StyledTH>JUN</StyledTH>
-            <StyledTH>Q2</StyledTH>
-            <StyledTH>JUL</StyledTH>
-            <StyledTH>AUG</StyledTH>
-            <StyledTH>SEP</StyledTH>
-            <StyledTH>Q3</StyledTH>
-            <StyledTH>OCT</StyledTH>
-            <StyledTH>NOV</StyledTH>
-            <StyledTH>DEC</StyledTH>
-            <StyledTH>Q4</StyledTH>
+            {FY_MONTHS.map((e, idx) => (
+              <StyledTH key={idx}>{e}</StyledTH>
+            ))}
             <StyledTH>Total Costs</StyledTH>
           </StyledHeader>
         </thead>

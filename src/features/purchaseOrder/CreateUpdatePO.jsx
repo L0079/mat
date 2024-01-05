@@ -18,7 +18,7 @@ import { usePaymentTerms } from "../paymentTerms/usePaymentTerms";
 import { useCC } from "../costProfitCenters/useCC";
 import { useCurrencies } from "../currencies/useCurrencies";
 import { useFiscalYear } from "../settings/useFiscalYear";
-import { useSuppliers } from "../suppliers/useSuppliers";
+import { useSuppliersNoPage } from "../suppliers/useSuppliersNoPage";
 import { poDefaultValues } from "../../utils/constants";
 import { useState } from "react";
 import { useInsertPurchaseOrder } from "./useInsertPurchaseOrder";
@@ -114,7 +114,7 @@ function CreateUpdatePO({
 
   const { isLoading: isLoadingCC, costCenters } = useCC("Cost");
   const { isLoading: isLoadingTaxCodes, taxCodes } = useTaxCodes();
-  const { isLoading: isLoadingSuppliers, suppliers } = useSuppliers();
+  const { isLoading: isLoadingSuppliers, suppliers } = useSuppliersNoPage();
   const { isLoading: isLoadingCurrencies, currencies } = useCurrencies();
   const { isLoading: isLoadingPaymentTerms, paymentTerms } = usePaymentTerms();
   const { isLoading: isLoadingFY, fiscalYear: fyObj } = useFiscalYear();

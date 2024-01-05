@@ -13,7 +13,7 @@ import Spinner from "../../ui/Spinner";
 import Select from "../../ui/Select";
 import Button from "../../ui/Button";
 import ButtonIcon from "../../ui/ButtonIcon";
-import { useCustomers } from "../customers/useCustomers";
+import { useCustomersNoPage } from "../customers/useCustomersNoPage";
 import { useCurrencies } from "../currencies/useCurrencies";
 import { usePaymentTerms } from "../paymentTerms/usePaymentTerms";
 import { useCreateOrder } from "./useInsertOrder";
@@ -70,7 +70,7 @@ export default function CreateUpdateOrder({
   });
   const { errors } = formState;
 
-  const { isLoading: isLoadingCustomers, customers } = useCustomers();
+  const { isLoading: isLoadingCustomers, customers } = useCustomersNoPage();
   const { isLoading: isLoadingCurrencies, currencies } = useCurrencies();
   const { isLoading: isLoadingPaymentTerms, paymentTerms } = usePaymentTerms();
   const { isLoading: isLoadingFY, fiscalYear: fyObj } = useFiscalYear();

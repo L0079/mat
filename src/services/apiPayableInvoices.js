@@ -14,8 +14,7 @@ export async function getPayableInvoices({ page, filter }) {
       }
     );
 
-  if (filter)
-    query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
+  if (filter) query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
   // if (sortBy)
   //   query = query.order(sortBy.field, {
   //     ascending: sortBy.direction === "asc",
@@ -42,9 +41,7 @@ export async function addUpdatePayableInvoice(payableInvoice, id) {
     .select("toBePaid")
     .eq("poNumber", payableInvoice.poNumber);
 
-  const { data: poData, error: poError } = await queryPurchaseOrders
-    .select()
-    .single();
+  const { data: poData, error: poError } = await queryPurchaseOrders.select().single();
 
   if (poError) {
     console.log(poError);
@@ -53,13 +50,9 @@ export async function addUpdatePayableInvoice(payableInvoice, id) {
 
   let originalAmount = 0;
   if (id) {
-    const queryPayableInvoice = supabase
-      .from("payableInvoices")
-      .select("amount")
-      .eq("id", id);
+    const queryPayableInvoice = supabase.from("payableInvoices").select("amount").eq("id", id);
 
-    const { data: origInvoice, error: errorOrigInvoice } =
-      await queryPayableInvoice.select().single();
+    const { data: origInvoice, error: errorOrigInvoice } = await queryPayableInvoice.select().single();
 
     if (errorOrigInvoice) {
       console.log(errorOrigInvoice);
@@ -74,12 +67,8 @@ export async function addUpdatePayableInvoice(payableInvoice, id) {
     toast.error(
       `The payable invoice amount exceeds the purchase order: Invoice amount: ${payableInvoice.amount} - To be received: ${poData.toBeBilled}`
     );
-    console.log(
-      `Invoice amount: ${payableInvoice.amount} - To be received: ${poData.toBeBilled}`
-    );
-    throw new Error(
-      `Invoice amount: ${payableInvoice.amount} - To be received: ${poData.toBeBilled}`
-    );
+    console.log(`Invoice amount: ${payableInvoice.amount} - To be received: ${poData.toBeBilled}`);
+    throw new Error(`Invoice amount: ${payableInvoice.amount} - To be received: ${poData.toBeBilled}`);
   }
 
   //--- Insert invoice
@@ -87,21 +76,14 @@ export async function addUpdatePayableInvoice(payableInvoice, id) {
   if (!id) {
     query = supabase.from("payableInvoices").insert([payableInvoice]);
   } else {
-    query = supabase
-      .from("payableInvoices")
-      .update([payableInvoice])
-      .eq("id", id);
+    query = supabase.from("payableInvoices").update([payableInvoice]).eq("id", id);
   }
   //  const { data, error } = await query.select().single(); //torna direttamente l'oggetto e non un array di oggetti con un solo elemento
   const { error } = await query.select();
 
   if (error) {
     console.log(error);
-    throw new Error(
-      id
-        ? "Cannot update the selected payable invoice"
-        : "Cannot create the new payable invoice"
-    );
+    throw new Error(id ? "Cannot update the selected payable invoice" : "Cannot create the new payable invoice");
   }
 
   //--- Update toBeBilled in the order record
@@ -110,14 +92,11 @@ export async function addUpdatePayableInvoice(payableInvoice, id) {
     .update([{ toBePaid: toBePaid }])
     .eq("poNumber", payableInvoice.poNumber);
 
-  const { data: updatePoData, error: updatePoError } =
-    await updatePurchaseOrder.select();
+  const { data: updatePoData, error: updatePoError } = await updatePurchaseOrder.select();
 
   if (updatePoError) {
     console.log(updatePoError);
-    throw new Error(
-      "Cannot update the to-be-paid info in purchase order record"
-    );
+    throw new Error("Cannot update the to-be-paid info in purchase order record");
   }
 
   return updatePoData;
@@ -126,10 +105,7 @@ export async function addUpdatePayableInvoice(payableInvoice, id) {
 //--------------- DELETE PAYABLE INVOICE ------------------------------------------------------------------------------
 
 export async function deletePayableInvoice(id) {
-  const { error } = await supabase
-    .from("payableInvoices")
-    .delete()
-    .eq("id", id);
+  const { error } = await supabase.from("payableInvoices").delete().eq("id", id);
 
   if (error) {
     console.log(error);
@@ -141,10 +117,7 @@ export async function deletePayableInvoice(id) {
 //--------------- UPDATE STATUS ---------------------------------------------------------------------------------------
 
 export async function updatePayableInvoiceStatus(payableInvoice, id) {
-  const query = supabase
-    .from("payableInvoices")
-    .update([payableInvoice])
-    .eq("id", id);
+  const query = supabase.from("payableInvoices").update([payableInvoice]).eq("id", id);
   const { data, error } = await query.select();
 
   if (error) {

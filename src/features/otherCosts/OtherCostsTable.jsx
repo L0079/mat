@@ -6,19 +6,20 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import OtherCostRow from "./OtherCostRow";
+import Pagination from "../../ui/Pagination";
 
 function OtherCostsTable() {
-  const { isLoading, error, otherCosts } = useOtherCosts();
+  const { isLoading, otherCosts, count } = useOtherCosts();
 
   if (isLoading) return <Spinner />;
-  if (error) return;
   if (!otherCosts.length > 0) return <Empty resource={"Other Costs"} />;
 
   return (
     <Menus>
       <Table
         role="table"
-        columns="0.4fr 0.4fr 0.6fr 0.6fr 1fr 0.6fr 0.6fr 0.6fr 0.6fr 0.2fr"
+        // columns="0.4fr 0.4fr 0.6fr 0.6fr 1fr 0.6fr 0.6fr 0.6fr 0.6fr 0.2fr"
+        columns="0.4fr 0.4fr 0.6fr 0.6fr 1fr 0.6fr 0.6fr 0.6fr 0.2fr"
       >
         <Table.Header>
           <div></div>
@@ -29,15 +30,16 @@ function OtherCostsTable() {
           <div>Amount</div>
           <div>Total Amount</div>
           <div>Payment Due On</div>
-          <div>Note</div>
+          {/* <div>Note</div> */}
           <div></div>
         </Table.Header>
         <Table.Body
           data={otherCosts}
-          render={(otherCost) => (
-            <OtherCostRow otherCost={otherCost} key={otherCost.id} />
-          )}
+          render={(otherCost) => <OtherCostRow otherCost={otherCost} key={otherCost.id} />}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

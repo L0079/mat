@@ -7,8 +7,7 @@ function OtherCosts() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Other Costs</Heading>
-
+        <Heading as="h3">Other Costs</Heading>
         <OtherCostsOperations />
       </Row>
       <OtherCostsTable />

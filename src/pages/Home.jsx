@@ -1,10 +1,15 @@
 import styled from "styled-components";
-//import Heading from "../ui/Heading";
-import Row from "../ui/Row";
 
 function Home() {
+  const Container = styled.div`
+    display: flex;
+    justify-content: center;
+  `;
+  const ImageContainer = styled.div`
+    max-width: 43%;
+    height: auto;
+  `;
   const IMG = styled.img`
-    max-width: 60%;
     height: auto;
     display: block;
     margin-left: auto;
@@ -12,11 +17,11 @@ function Home() {
   `;
 
   return (
-    <>
-      <Row type="horizontal">
+    <Container>
+      <ImageContainer>
         <IMG src="/WhiteLogo_noBackground.svg" alt="MAT" />
-      </Row>
-    </>
+      </ImageContainer>
+    </Container>
   );
 }
 

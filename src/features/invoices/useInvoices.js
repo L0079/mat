@@ -7,27 +7,13 @@ import { PAGE_SIZE } from "../../utils/constants";
 export function useInvoices() {
   const [searchParams] = useSearchParams();
   const filterValue = searchParams.get("statusId");
-  const filter =
-    !filterValue || filterValue === "0"
-      ? ""
-      : { field: "statusId", value: filterValue };
-
-  // const sortByRaw = searchParams.get("sortBy")
-  //   ? searchParams.get("sortBy")
-  //   : "startDate-desc";
-  // const [field, direction] = sortByRaw.split("-");
-  // const sortBy = { field, direction };
-
+  const filter = !filterValue || filterValue === "0" ? "" : { field: "statusId", value: filterValue };
   const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const {
     isLoading,
     data: { data: invoices, count } = {},
     error,
-    // } = useQuery({
-    //   queryKey: ["bookings", filter, sortBy, page],
-    //   queryFn: () => getBookings({ filter, sortBy, page }),
-    // });
   } = useQuery({
     queryKey: ["invoices", page, filter],
     queryFn: () => getInvoices({ page, filter }),

@@ -76,7 +76,7 @@ function OtherCostRow({ otherCost }) {
       <Amount>{formatCurrency(amount, currency)}</Amount>
       <Amount>{formatCurrency(totalAmount, currency)}</Amount>
       <Item>{duePaymentDate}</Item>
-      <Item>{note}</Item>
+      {/* <Item>{note}</Item> */}
       <Modal>
         <Menus.Menu>
           <Menus.Toggle id={id} />
@@ -88,15 +88,11 @@ function OtherCostRow({ otherCost }) {
             {status === "created" && (
               <>
                 <Modal.Open opens="other-cost-edit">
-                  <Menus.Button icon={<HiOutlinePencilSquare />}>
-                    Edit
-                  </Menus.Button>
+                  <Menus.Button icon={<HiOutlinePencilSquare />}>Edit</Menus.Button>
                 </Modal.Open>
 
                 <Modal.Open opens="other-cost-register">
-                  <Menus.Button icon={<HiOutlineBookOpen />}>
-                    Register
-                  </Menus.Button>
+                  <Menus.Button icon={<HiOutlineBookOpen />}>Register</Menus.Button>
                 </Modal.Open>
 
                 <Modal.Open opens="confirm-delete">
@@ -107,9 +103,7 @@ function OtherCostRow({ otherCost }) {
 
             {status === "registered" && (
               <Modal.Open opens="other-cost-payment">
-                <Menus.Button icon={<HiOutlineCurrencyEuro />}>
-                  Paid
-                </Menus.Button>
+                <Menus.Button icon={<HiOutlineCurrencyEuro />}>Paid</Menus.Button>
               </Modal.Open>
             )}
           </Menus.List>

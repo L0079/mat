@@ -16,7 +16,7 @@ import Button from "../../ui/Button";
 import ButtonIcon from "../../ui/ButtonIcon";
 import { useCreateOtherCost } from "./useCreateOtherCost";
 import { useUpdateOtherCost } from "./useUpdateOtherCost";
-import { useSuppliers } from "../suppliers/useSuppliers";
+import { useSuppliersNoPage } from "../suppliers/useSuppliersNoPage";
 import { useCC } from "../costProfitCenters/useCC";
 import { useCurrencies } from "../currencies/useCurrencies";
 import { useDocumentTypes } from "./useDocumentTypes";
@@ -69,7 +69,7 @@ function CreateUpdateOtherCosts({
 
   const { isLoading: isLoadingDocTypes, documentTypes } = useDocumentTypes();
   const { isLoading: isLoadingCC, costCenters } = useCC("Cost");
-  const { isLoading: isLoadingSuppliers, suppliers } = useSuppliers();
+  const { isLoading: isLoadingSuppliers, suppliers } = useSuppliersNoPage();
   const { isLoading: isLoadingCurrencies, currencies } = useCurrencies();
 
   const [amount, setAmount] = useState(isEditSession ? otherCost?.amount : 0);
@@ -204,6 +204,7 @@ function CreateUpdateOtherCosts({
         <Input
           type="number"
           id="amount"
+          step="0.01"
           {...register("amount", {
             required: "this field is required",
             onChange: (e) => {
@@ -229,6 +230,7 @@ function CreateUpdateOtherCosts({
       <FormRow label="Taxes">
         <Input
           type="number"
+          step="0.01"
           id="taxes"
           defaultValue={taxes}
           {...register("taxes", {
@@ -243,6 +245,7 @@ function CreateUpdateOtherCosts({
       <FormRow label="Total Amount">
         <Input
           type="number"
+          step="0.01"
           id="totalAmount"
           value={totalAmount}
           disabled={true}
