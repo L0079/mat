@@ -8,7 +8,7 @@ export function useInvoicesNoPage() {
     data: { data: invoices, count } = {},
     error,
   } = useQuery({
-    queryKey: ["invoices", page],
+    queryKey: ["invoices", "noPage"],
     queryFn: () => getInvoices({ page }),
   });
 

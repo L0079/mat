@@ -60,7 +60,6 @@ function CashFlow() {
   const fiscalYear = fyObj.fiscalYear;
   const initialBalance = bankBalances[0].availableBalance;
 
-  //let year = [];
   let year = [
     {
       date: new Date(fiscalYear, 0, 1),
@@ -169,9 +168,6 @@ function CashFlow() {
       <CashFlowGraph graphData={year} start={startDay} end={endDay} />
     </Container>
   );
-  //-----------------------------------------------------------------------------------
-  // year.forEach((elm, idx) => (year[idx].date = format(elm.date, "dd/MM/yyyy")));
-  //  return <CashFlowGraph graphData={year} />;
 }
 
 export default CashFlow;
