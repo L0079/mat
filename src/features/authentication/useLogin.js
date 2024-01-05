@@ -12,7 +12,8 @@ export function useLogin() {
   const { isLoading: isLoggingIN, mutate: login } = useMutation({
     mutationFn: ({ email, password }) => loginAPI({ email, password }),
     onSuccess: (user) => {
-      //console.log("A1A", user);
+      // console.log("A1A", user);
+      console.log("A1A"); // workaround, otherwise it does not redirect to the home page
       queryClient.setQueryData([user], user.user); //Set user data in cash
       navigate("/home");
     },
