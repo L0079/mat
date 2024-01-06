@@ -1,15 +1,12 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 
 const StyledFormRow = styled.div`
   display: grid;
   align-items: center;
-
   /* grid-template-columns: ${(props) => props.templateColumns}; */
   grid-template-columns: 24rem 1fr 1.2fr;
-
   gap: 2.4rem;
-
   padding: 1.2rem 0;
 
   &:first-child {

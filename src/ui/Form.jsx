@@ -18,6 +18,13 @@ const Form = styled.form`
       padding: 0.5rem 1rem 0.5rem 0;
     `}
 
+    ${(props) =>
+    props.type === "medium" &&
+    css`
+      padding: 2rem;
+      margin-right: 14.5rem;
+    `}
+
   ${(props) =>
     props.type === "modal" &&
     css`

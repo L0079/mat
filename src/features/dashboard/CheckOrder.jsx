@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import Spinner from "../../ui/Spinner";
+import ButtonIcon from "../../ui/ButtonIcon";
 import OrdersByOrderNumber from "./OrdersByOrderNumber";
 import { useFiscalYear } from "../settings/useFiscalYear";
 
@@ -14,9 +16,19 @@ const StyledSpan = styled.span`
   margin-right: 10px;
 `;
 
+const StyledFormRow = styled.div`
+  display: grid;
+  align-items: center;
+  gap: 2.4rem;
+  &:has(button) {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1.2rem;
+  }
+`;
+
 function CheckOrder() {
-  const { register, handleSubmit, reset, formState } = useForm({});
-  const { errors } = formState;
+  const { register, handleSubmit, formState } = useForm({});
   const [orderNumber, setOrderNumber] = useState("");
   const isDisabled = false;
   const { isLoading: isLoadingFY, fiscalYear: fyObj } = useFiscalYear();
@@ -33,16 +45,21 @@ function CheckOrder() {
 
   return (
     <>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <StyledSpan>Order Number:</StyledSpan>
-        <Input
-          type="text"
-          id="orderNumber"
-          {...register("orderNumber", {
-            required: "Please enter order number",
-          })}
-          disabled={isDisabled}
-        />
+      <Form type="medium" onSubmit={handleSubmit(onSubmit)}>
+        <StyledFormRow>
+          <StyledSpan>Order Number:</StyledSpan>
+          <Input
+            type="text"
+            id="orderNumber"
+            {...register("orderNumber", {
+              required: "Please enter order number",
+            })}
+            disabled={isDisabled}
+          />
+          <ButtonIcon>
+            <FaSearch />
+          </ButtonIcon>
+        </StyledFormRow>
       </Form>
       {orderNumber && <OrdersByOrderNumber orderNumber={orderNumber} />}
     </>
