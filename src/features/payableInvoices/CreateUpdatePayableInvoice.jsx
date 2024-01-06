@@ -43,12 +43,7 @@ const ClickableDiv = styled.div`
   border-radius: 5px;
 `;
 
-function CreateUpdatePayableInvoice({
-  purchaseOrder = {},
-  payableInvoice = {},
-  isDisplay = false,
-  onCloseModal,
-}) {
+function CreateUpdatePayableInvoice({ purchaseOrder = {}, payableInvoice = {}, isDisplay = false, onCloseModal }) {
   // if purchaseOrder exist, it is a new payable invoice that has to be created
 
   const {
@@ -67,9 +62,7 @@ function CreateUpdatePayableInvoice({
   const { isLoading: isLoadingPaymentTerms, paymentTerms } = usePaymentTerms();
   const { isLoading: isLoadingCC, costCenters } = useCC("Cost");
 
-  const [amount, setAmount] = useState(
-    isEditSession ? payableInvoice?.amount : purchaseOrder?.toBePaid
-  );
+  const [amount, setAmount] = useState(isEditSession ? payableInvoice?.amount : purchaseOrder?.toBePaid);
 
   // if it is a new payable invoice default taxes to 22%, the user could modify it
   const [taxes, setTaxes] = useState(
@@ -222,19 +215,12 @@ function CreateUpdatePayableInvoice({
         />
 
         <Item>
-          <ClickableDiv onClick={() => (isDisabled ? null : setTo22())}>
-            SET to 22%
-          </ClickableDiv>
+          <ClickableDiv onClick={() => (isDisabled ? null : setTo22())}>SET to 22%</ClickableDiv>
         </Item>
       </FormRow>
 
       <FormRow label="Total Amount">
-        <Input
-          type="number"
-          id="totalAmount"
-          value={totalAmount}
-          disabled={true}
-        />
+        <Input type="number" step="0.01" id="totalAmount" value={totalAmount} disabled={true} />
       </FormRow>
 
       <FormRow label="Payment Terms" error={errors?.paymentTerms?.message}>
@@ -282,9 +268,7 @@ function CreateUpdatePayableInvoice({
       {!isDisplay && (
         <ButtonsDiv>
           <Button onClick={handleReset}>Reset</Button>
-          <Button disabled={isDisabled}>
-            {isEditSession ? "Update" : "Create"}
-          </Button>
+          <Button disabled={isDisabled}>{isEditSession ? "Update" : "Create"}</Button>
         </ButtonsDiv>
       )}
     </Form>

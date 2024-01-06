@@ -59,11 +59,7 @@ const ButtonsDiv = styled.div`
   justify-content: space-between;
 `;
 
-export default function CreateUpdateSupplier({
-  supplier = {},
-  isDisplay = false,
-  onCloseModal,
-}) {
+export default function CreateUpdateSupplier({ supplier = {}, isDisplay = false, onCloseModal }) {
   const isModal = onCloseModal ? true : false;
   const { id: editId, ...editValues } = supplier;
   const isEditSession = Boolean(editId);
@@ -76,12 +72,8 @@ export default function CreateUpdateSupplier({
   const { isUpdatingSupplier, updateSupplier } = useUpdateSupplier();
   const navigate = useNavigate();
 
-  const [isGroup, setIsGroup] = useState(
-    isEditSession ? editValues.group : false
-  );
-  const [isParentCompany, setIsParentCompany] = useState(
-    isEditSession ? editValues.parentCompany : false
-  );
+  const [isGroup, setIsGroup] = useState(isEditSession ? editValues.group : false);
+  const [isParentCompany, setIsParentCompany] = useState(isEditSession ? editValues.parentCompany : false);
 
   function onSubmit(data) {
     let values = { ...data, group: isGroup };
@@ -151,21 +143,11 @@ export default function CreateUpdateSupplier({
         />
       </FormRow>
       <FormRow label="P.IVA" error={errors?.PIVA?.message}>
-        <Input
-          type="text"
-          id="PIVA"
-          {...register("PIVA")}
-          disabled={isDisabled}
-        />
+        <Input type="text" id="PIVA" {...register("PIVA")} disabled={isDisabled} />
       </FormRow>
 
       <FormRow label="SDI code" error={errors?.SDIcode?.message}>
-        <Input
-          type="text"
-          id="SDIcode"
-          {...register("SDIcode")}
-          disabled={isDisabled}
-        />
+        <Input type="text" id="SDIcode" {...register("SDIcode")} disabled={isDisabled} />
       </FormRow>
 
       <FormRow label="Payment Terms" error={errors?.paymentTerms?.message}>
@@ -181,37 +163,17 @@ export default function CreateUpdateSupplier({
       </FormRow>
 
       <FormRow label="Address" error={errors?.address?.message}>
-        <Input
-          type="text"
-          label="Address"
-          id="address"
-          {...register("address")}
-          disabled={isDisabled}
-        />
+        <Input type="text" label="Address" id="address" {...register("address")} disabled={isDisabled} />
       </FormRow>
       <FormRow label="City" error={errors?.address?.message}>
-        <Input
-          type="text"
-          id="city"
-          {...register("city")}
-          disabled={isDisabled}
-        />
-        <InputZIP
-          placeholder="ZIP"
-          type="number"
-          label="ZIP"
-          id="zip"
-          {...register("zip")}
-          disabled={isDisabled}
-        />
+        <Input type="text" id="city" {...register("city")} disabled={isDisabled} />
+        <InputZIP placeholder="ZIP" type="number" label="ZIP" id="zip" {...register("zip")} disabled={isDisabled} />
       </FormRow>
       <FormRow label="State" error={errors?.state?.message}>
-        <Input
-          type="text"
-          id="state"
-          {...register("state")}
-          disabled={isDisabled}
-        />
+        <Input type="text" id="state" {...register("state")} disabled={isDisabled} />
+      </FormRow>
+      <FormRow label="Bank details" error={errors?.emailAddress?.message}>
+        <Input type="bankDetails" id="bankDetails" {...register("bankDetails")} disabled={isDisabled} />
       </FormRow>
       <FormRow label="Email address" error={errors?.emailAddress?.message}>
         <Input
@@ -244,12 +206,7 @@ export default function CreateUpdateSupplier({
         />
       </FormRow>
       <FormRow label="Web Site" error={errors?.webSite?.message}>
-        <Input
-          type="text"
-          id="webSite"
-          {...register("webSite")}
-          disabled={isDisabled}
-        />
+        <Input type="text" id="webSite" {...register("webSite")} disabled={isDisabled} />
       </FormRow>
 
       <FormRow label="Group">
@@ -280,9 +237,7 @@ export default function CreateUpdateSupplier({
             <InputCheck
               type="checkbox"
               defaultChecked={isParentCompany}
-              onClick={() =>
-                setIsParentCompany((isParentCompany) => !isParentCompany)
-              }
+              onClick={() => setIsParentCompany((isParentCompany) => !isParentCompany)}
               disabled={isDisabled}
             />
             <StyledSpanCheck> is the parent company</StyledSpanCheck>
@@ -293,12 +248,8 @@ export default function CreateUpdateSupplier({
       )}
       {!isDisplay && (
         <ButtonsDiv>
-          <Button onClick={handleReset}>
-            {isEditSession ? "Cancel" : "Reset"}
-          </Button>
-          <Button disabled={isDisabled}>
-            {isDisabled ? <SpinnerMini /> : isEditSession ? "Update" : "Create"}
-          </Button>
+          <Button onClick={handleReset}>{isEditSession ? "Cancel" : "Reset"}</Button>
+          <Button disabled={isDisabled}>{isDisabled ? <SpinnerMini /> : isEditSession ? "Update" : "Create"}</Button>
         </ButtonsDiv>
       )}
     </Form>

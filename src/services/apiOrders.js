@@ -6,16 +6,13 @@ import { PAGE_SIZE } from "../utils/constants";
 export async function getOrders({ page, filter }) {
   let query = supabase
     .from("orders")
-    .select(
-      "*, customers(id, customer, PIVA, splitPayment), currencies(id, currency), paymentTerms(id, code))",
-      {
-        count: "exact",
-      }
-    )
-    .order("orderDate", { ascending: false });
+    .select("*, customers(id, customer, PIVA, splitPayment), currencies(id, currency), paymentTerms(id, code))", {
+      count: "exact",
+    });
+  //   .order("orderDate", { ascending: false });
+  // This cause a problem: it seems that orders will the same orderDate are not processed correctely
 
-  if (filter)
-    query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
+  if (filter) query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
   // if (sortBy)
   //   query = query.order(sortBy.field, {
   //     ascending: sortBy.direction === "asc",
@@ -41,21 +38,14 @@ export async function addUpdateOrder(order, orderNumber) {
   if (!orderNumber) {
     query = supabase.from("orders").insert([order]);
   } else {
-    query = supabase
-      .from("orders")
-      .update([order])
-      .eq("orderNumber", orderNumber);
+    query = supabase.from("orders").update([order]).eq("orderNumber", orderNumber);
   }
 
   const { data, error } = await query.select();
 
   if (error) {
     console.log(error);
-    throw new Error(
-      orderNumber
-        ? "Cannot update the selected order"
-        : "Cannot create the new order"
-    );
+    throw new Error(orderNumber ? "Cannot update the selected order" : "Cannot create the new order");
   }
   return data;
 }
@@ -63,10 +53,7 @@ export async function addUpdateOrder(order, orderNumber) {
 //--------------- DELETE ORDER ----------------------------------------------------------------------------------------
 
 export async function deleteOrder(orderNumber) {
-  const { error } = await supabase
-    .from("orders")
-    .delete()
-    .eq("orderNumber", orderNumber);
+  const { error } = await supabase.from("orders").delete().eq("orderNumber", orderNumber);
 
   if (error) {
     console.log(error);

@@ -13,8 +13,7 @@ export async function getPurchaseOrders({ page, filter }) {
       }
     );
 
-  if (filter)
-    query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
+  if (filter) query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
   // if (sortBy)
   //   query = query.order(sortBy.field, {
   //     ascending: sortBy.direction === "asc",
@@ -40,21 +39,14 @@ export async function addUpdatePurchaseOrder(purchaseOrder, poNumber) {
   if (!poNumber) {
     query = supabase.from("purchaseOrders").insert([purchaseOrder]);
   } else {
-    query = supabase
-      .from("purchaseOrders")
-      .update([purchaseOrder])
-      .eq("poNumber", poNumber);
+    query = supabase.from("purchaseOrders").update([purchaseOrder]).eq("poNumber", poNumber);
   }
 
   const { data, error } = await query.select();
 
   if (error) {
     console.log(error);
-    throw new Error(
-      poNumber
-        ? "Cannot update the selected purchase order"
-        : "Cannot create the new purchase order"
-    );
+    throw new Error(poNumber ? "Cannot update the selected purchase order" : "Cannot create the new purchase order");
   }
   return data;
 }
@@ -62,10 +54,7 @@ export async function addUpdatePurchaseOrder(purchaseOrder, poNumber) {
 //--------------- DELETE ORDER ----------------------------------------------------------------------------------------
 
 export async function deletePurchaseOrder(poNumber) {
-  const { error } = await supabase
-    .from("purchaseOrders")
-    .delete()
-    .eq("poNumber", poNumber);
+  const { error } = await supabase.from("purchaseOrders").delete().eq("poNumber", poNumber);
 
   if (error) {
     console.log(error);

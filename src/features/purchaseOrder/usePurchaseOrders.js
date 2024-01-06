@@ -6,11 +6,8 @@ import { PAGE_SIZE } from "../../utils/constants";
 
 export function usePurchaseOrders() {
   const [searchParams] = useSearchParams();
-  //const filterValue = searchParams.get("status");
-  // const filter =
-  //   !filterValue || filterValue === "all"
-  //     ? null
-  //     : { field: "status", value: filterValue };
+  const filterValue = searchParams.get("poNumber");
+  const filter = !filterValue || filterValue === "*" ? null : { field: "poNumber", value: filterValue };
 
   // const sortByRaw = searchParams.get("sortBy")
   //   ? searchParams.get("sortBy")
@@ -24,13 +21,9 @@ export function usePurchaseOrders() {
     isLoading,
     data: { data: purchaseOrders, count } = {},
     error,
-    // } = useQuery({
-    //   queryKey: ["bookings", filter, sortBy, page],
-    //   queryFn: () => getBookings({ filter, sortBy, page }),
-    // });
   } = useQuery({
-    queryKey: ["purchaseOrders", page],
-    queryFn: () => getPurchaseOrders({ page }),
+    queryKey: ["purchaseOrders", page, filter],
+    queryFn: () => getPurchaseOrders({ page, filter }),
   });
 
   // PRE_FETCHING

@@ -13,6 +13,12 @@ const Form = styled.form`
     `}
 
   ${(props) =>
+    props.type === "thin" &&
+    css`
+      padding: 0.5rem 1rem 0.5rem 0;
+    `}
+
+  ${(props) =>
     props.type === "modal" &&
     css`
       width: 80rem;

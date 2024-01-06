@@ -1,5 +1,6 @@
 import PurchaseOrderOperations from "../features/purchaseOrder/PoOperations";
 import PoTable from "../features/purchaseOrder/PoTable";
+import PurchaseFilter from "../features/purchaseOrder/purchaseFilter";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 
@@ -8,6 +9,7 @@ function PurchaseOrders() {
     <>
       <Row type="horizontal">
         <Heading as="h3">Purchase Orders</Heading>
+        <PurchaseFilter />
         <PurchaseOrderOperations />
       </Row>
       <PoTable />
