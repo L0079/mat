@@ -15,7 +15,7 @@ export function useLogin() {
       navigate("/");
     },
     onError: (error) => toast.error(error.message),
-    //onSettled: () => navigate("/"),
+    onSettled: async () => navigate("/"),
     // workaround, onSuccess does not always redirect to the home page (the component is unmounted before onSuccess is executed)
   });
 
