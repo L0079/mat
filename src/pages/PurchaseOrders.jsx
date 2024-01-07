@@ -1,6 +1,6 @@
 import PurchaseOrderOperations from "../features/purchaseOrder/PoOperations";
 import PoTable from "../features/purchaseOrder/PoTable";
-import PurchaseFilter from "../features/purchaseOrder/purchaseFilter";
+import PurchaseFilter from "../features/purchaseOrder/PurchaseFilter";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 
