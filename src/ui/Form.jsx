@@ -22,7 +22,7 @@ const Form = styled.form`
     props.type === "medium" &&
     css`
       padding: 2rem;
-      margin-right: 14.5rem;
+      margin-right: 5rem;
     `}
 
   ${(props) =>

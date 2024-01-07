@@ -7,11 +7,10 @@ import Table from "../../ui/Table";
 import PayableInvoiceRow from "./PayableInvoiceRow";
 
 function PayableInvoicesByPoNumber({ orderNumber, poArray }) {
-  const { isLoading, payableInvoicesByPoNumber } =
-    usePayableInvoicesGetByPoNumber({
-      orderNumber,
-      poArray,
-    });
+  const { isLoading, payableInvoicesByPoNumber } = usePayableInvoicesGetByPoNumber({
+    orderNumber,
+    poArray,
+  });
 
   if (isLoading) return <Spinner />;
 
@@ -20,7 +19,8 @@ function PayableInvoicesByPoNumber({ orderNumber, poArray }) {
       <Menus>
         <Table
           role="table"
-          columns="0.5fr 0.8fr 0.6fr 1.5fr 0.8fr 0.8fr 0.6fr 0.6fr 0.3fr"
+          columns="0.8fr 0.9fr 0.9fr 1.5fr 0.9fr 0.9fr 0.9fr 0.8fr 0.2fr"
+          // columns="0.5fr 0.8fr 0.6fr 1.5fr 0.8fr 0.8fr 0.6fr 0.6fr 0.3fr"
         >
           <Table.Header>
             <div></div>
@@ -35,12 +35,7 @@ function PayableInvoicesByPoNumber({ orderNumber, poArray }) {
           </Table.Header>
           <Table.Body
             data={payableInvoicesByPoNumber}
-            render={(payableInvoice) => (
-              <PayableInvoiceRow
-                payableInvoice={payableInvoice}
-                key={payableInvoice.id}
-              />
-            )}
+            render={(payableInvoice) => <PayableInvoiceRow payableInvoice={payableInvoice} key={payableInvoice.id} />}
           />
         </Table>
       </Menus>

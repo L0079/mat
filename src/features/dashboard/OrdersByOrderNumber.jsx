@@ -19,8 +19,10 @@ import PayableInvoicesByPoNumber from "../payableInvoices/PayableInvoicesByPoNum
 const StyledContainer = styled.div`
   max-width: 100%;
   margin-top: 15px;
+  display: grid;
   flex-direction: row;
-  display: flex;
+  grid-template-columns: 24fr 5fr;
+  column-gap: 15px;
   align-items: center;
 `;
 const Item = styled.div`
@@ -48,12 +50,10 @@ function OrdersByOrderNumber({ orderNumber }) {
   const { isLoading, ordersByOrderNumber } = useOrdersGetByOrderNumber({
     orderNumber,
   });
-  const { isLoading: isLoadingInvoices, invoicesByOrderNumber } =
-    useInvoicesGetByOrderNumber({ orderNumber });
-  const { isLoading: isLoadingPOs, purchaseOrdersByOrderNumber } =
-    usePurchaseOrdersGetByOrderNumber({
-      orderNumber,
-    });
+  const { isLoading: isLoadingInvoices, invoicesByOrderNumber } = useInvoicesGetByOrderNumber({ orderNumber });
+  const { isLoading: isLoadingPOs, purchaseOrdersByOrderNumber } = usePurchaseOrdersGetByOrderNumber({
+    orderNumber,
+  });
   const [showInvoices, setShowInvoices] = useState(false);
   const [showPayableInvoices, setShowPayableInvoices] = useState(false);
   function toggleShowInvoices() {
@@ -65,8 +65,7 @@ function OrdersByOrderNumber({ orderNumber }) {
 
   if (isLoading || isLoadingInvoices || isLoadingPOs) return <Spinner />;
 
-  if (Object.keys(ordersByOrderNumber).length === 0)
-    return <div>No records found</div>;
+  if (Object.keys(ordersByOrderNumber).length === 0) return <div>No records found</div>;
 
   const {
     orderNumber: orderNum,
@@ -121,10 +120,7 @@ function OrdersByOrderNumber({ orderNumber }) {
       </Heading>
       <StyledContainer>
         <Menus>
-          <Table
-            role="table"
-            columns="0.5fr 0.5fr 0.8fr 0.6fr 0.6fr 0.6fr 0.6fr 0.4fr"
-          >
+          <Table columns="0.5fr 0.5fr 1.2fr 0.6fr 0.6fr 0.6fr 0.6fr 0.2fr">
             <Table.Header>
               <div>PO #</div>
               <div>PO Date</div>
@@ -137,15 +133,11 @@ function OrdersByOrderNumber({ orderNumber }) {
             </Table.Header>
             <Table.Body
               data={purchaseOrdersByOrderNumber}
-              render={(purchaseOrder) => (
-                <PoRow purchaseOrder={purchaseOrder} key={purchaseOrder.id} />
-              )}
+              render={(purchaseOrder) => <PoRow purchaseOrder={purchaseOrder} key={purchaseOrder.id} />}
             />
           </Table>
         </Menus>
-        <ClickableDiv onClick={toggleShowPayableInvoices}>
-          Show Payable Invoices
-        </ClickableDiv>
+        <ClickableDiv onClick={toggleShowPayableInvoices}>Show Payable Invoices</ClickableDiv>
       </StyledContainer>
       {showPayableInvoices && (
         <>
@@ -153,10 +145,7 @@ function OrdersByOrderNumber({ orderNumber }) {
             Payable Invoices
           </Heading>
           <StyledContainer>
-            <PayableInvoicesByPoNumber
-              orderNumber={orderNumber}
-              poArray={poArray}
-            />
+            <PayableInvoicesByPoNumber orderNumber={orderNumber} poArray={poArray} />
           </StyledContainer>
         </>
       )}
