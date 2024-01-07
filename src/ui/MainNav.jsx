@@ -1,19 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import {
-  LiaFileInvoiceDollarSolid,
-  LiaMoneyBillAlt,
-  LiaMoneyBillWaveAltSolid,
-  LiaListAlt,
-} from "react-icons/lia";
+import { LiaFileInvoiceDollarSolid, LiaMoneyBillAlt, LiaMoneyBillWaveAltSolid, LiaListAlt } from "react-icons/lia";
 import { HiOutlineHome, HiOutlineCog6Tooth } from "react-icons/hi2";
 import { SlPeople } from "react-icons/sl";
 import { PiTruck } from "react-icons/pi";
-import {
-  MdOutlineDashboardCustomize,
-  MdOutlineDashboard,
-} from "react-icons/md";
-import { useState } from "react";
+import { MdOutlineDashboardCustomize, MdOutlineDashboard } from "react-icons/md";
+import { useEffect, useState } from "react";
 
 const NavList = styled.ul`
   display: flex;
@@ -144,6 +136,20 @@ function MainNav() {
   function toggleDashBoard() {
     setToggleDB((toggleDB) => !toggleDB);
   }
+
+  const location = useLocation();
+  useEffect(
+    function () {
+      if (
+        location.pathname !== "/quarters" &&
+        location.pathname !== "/invoicesStatus" &&
+        location.pathname !== "/orderStatus" &&
+        location.pathname !== "/cashflow"
+      )
+        setToggleDB(false);
+    },
+    [location.pathname]
+  );
 
   return (
     <nav>

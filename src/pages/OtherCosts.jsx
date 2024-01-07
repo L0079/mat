@@ -1,15 +1,22 @@
 import Heading from "../ui/Heading";
-import Row from "../ui/Row";
 import OtherCostsOperations from "../features/otherCosts/OtherCostsOperations";
+import OtherCostsFilter from "../features/otherCosts/OtherCostsFilter";
 import OtherCostsTable from "../features/otherCosts/OtherCostsTable";
+import { HeaderRow, TitleAndOperation } from "../ui/HeaderRow";
 
 function OtherCosts() {
+  const label = "Other Costs";
+  const labelSize = label.length + 1;
   return (
     <>
-      <Row type="horizontal">
-        <Heading as="h3">Other Costs</Heading>
-        <OtherCostsOperations />
-      </Row>
+      <HeaderRow>
+        <TitleAndOperation labelSize={`${labelSize}rem`}>
+          <Heading as="h3">{label}</Heading>
+          <OtherCostsOperations />
+        </TitleAndOperation>
+        <OtherCostsFilter />
+      </HeaderRow>
+
       <OtherCostsTable />
     </>
   );

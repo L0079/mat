@@ -35,6 +35,7 @@ const ClickableDiv = styled.div`
   margin-left: 8%;
   margin-right: 8%;
   background-color: var(--color-indigo-100);
+  color: var(--color-grey-800);
   max-width: 18rem;
   min-width: 18rem;
   padding: 0.5rem;
@@ -42,7 +43,8 @@ const ClickableDiv = styled.div`
   border-radius: 5px;
 
   &:hover {
-    background-color: var(--color-brand-700);
+    background-color: var(--color-indigo-700);
+    color: var(--color-grey-50);
   }
 `;
 

@@ -56,6 +56,7 @@ const StyledTH = styled.th`
 
 const StyledCaption = styled.caption`
   caption-side: left;
+  margin-bottom: 5px;
 `;
 
 const Row = styled.div`

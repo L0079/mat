@@ -2,16 +2,21 @@ import PurchaseOrderOperations from "../features/purchaseOrder/PoOperations";
 import PoTable from "../features/purchaseOrder/PoTable";
 import PurchaseFilter from "../features/purchaseOrder/PurchaseFilter";
 import Heading from "../ui/Heading";
-import Row from "../ui/Row";
+import { HeaderRow, TitleAndOperation } from "../ui/HeaderRow";
 
 function PurchaseOrders() {
+  const label = "Purchase Orders";
+  const labelSize = label.length + 1;
   return (
     <>
-      <Row type="horizontal">
-        <Heading as="h3">Purchase Orders</Heading>
+      <HeaderRow>
+        <TitleAndOperation labelSize={`${labelSize}rem`}>
+          <Heading as="h3">{label}</Heading>
+          <PurchaseOrderOperations />
+        </TitleAndOperation>
         <PurchaseFilter />
-        <PurchaseOrderOperations />
-      </Row>
+      </HeaderRow>
+
       <PoTable />
     </>
   );

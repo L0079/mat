@@ -11,7 +11,7 @@ import { useState } from "react";
 import LineSeparator from "../../ui/LineSeparator";
 
 const StyledContainer = styled.div`
-  max-width: 65%;
+  max-width: 70%;
   /* margin-left: 40px; */
   align-items: center;
 `;
@@ -55,13 +55,9 @@ function InvoicesAging() {
   const toBePaidInvoices_amount = toBePaidInvoices.reduce(function (acc, inv) {
     return acc + inv.amount;
   }, 0);
-  const toBePaidInvoices_totalAmount = toBePaidInvoices.reduce(function (
-    acc,
-    inv
-  ) {
+  const toBePaidInvoices_totalAmount = toBePaidInvoices.reduce(function (acc, inv) {
     return acc + inv.totalAmount;
-  },
-  0);
+  }, 0);
 
   const pastDueInvoices_1W = toBePaidInvoices.filter(function (inv) {
     if (
@@ -72,20 +68,12 @@ function InvoicesAging() {
       return true;
     else return false;
   });
-  const pastDueInvoices_1W_amount = pastDueInvoices_1W.reduce(function (
-    acc,
-    inv
-  ) {
+  const pastDueInvoices_1W_amount = pastDueInvoices_1W.reduce(function (acc, inv) {
     return acc + inv.amount;
-  },
-  0);
-  const pastDueInvoices_1W_totalAmount = pastDueInvoices_1W.reduce(function (
-    acc,
-    inv
-  ) {
+  }, 0);
+  const pastDueInvoices_1W_totalAmount = pastDueInvoices_1W.reduce(function (acc, inv) {
     return acc + inv.totalAmount;
-  },
-  0);
+  }, 0);
 
   const pastDueInvoices_1M = toBePaidInvoices.filter(function (inv) {
     if (
@@ -96,20 +84,12 @@ function InvoicesAging() {
       return true;
     else return false;
   });
-  const pastDueInvoices_1M_amount = pastDueInvoices_1M.reduce(function (
-    acc,
-    inv
-  ) {
+  const pastDueInvoices_1M_amount = pastDueInvoices_1M.reduce(function (acc, inv) {
     return acc + inv.amount;
-  },
-  0);
-  const pastDueInvoices_1M_totalAmount = pastDueInvoices_1M.reduce(function (
-    acc,
-    inv
-  ) {
+  }, 0);
+  const pastDueInvoices_1M_totalAmount = pastDueInvoices_1M.reduce(function (acc, inv) {
     return acc + inv.totalAmount;
-  },
-  0);
+  }, 0);
 
   const pastDueInvoices_2M = toBePaidInvoices.filter(function (inv) {
     if (
@@ -120,41 +100,23 @@ function InvoicesAging() {
       return true;
     else return false;
   });
-  const pastDueInvoices_2M_amount = pastDueInvoices_2M.reduce(function (
-    acc,
-    inv
-  ) {
+  const pastDueInvoices_2M_amount = pastDueInvoices_2M.reduce(function (acc, inv) {
     return acc + inv.amount;
-  },
-  0);
-  const pastDueInvoices_2M_totalAmount = pastDueInvoices_2M.reduce(function (
-    acc,
-    inv
-  ) {
+  }, 0);
+  const pastDueInvoices_2M_totalAmount = pastDueInvoices_2M.reduce(function (acc, inv) {
     return acc + inv.totalAmount;
-  },
-  0);
+  }, 0);
 
   const pastDueInvoices_critical = toBePaidInvoices.filter(function (inv) {
-    if (
-      inv.duePaymentDate &&
-      isAfter(new Date(), add(parseISO(inv.duePaymentDate), { months: 2 }))
-    )
-      return true;
+    if (inv.duePaymentDate && isAfter(new Date(), add(parseISO(inv.duePaymentDate), { months: 2 }))) return true;
     else return false;
   });
-  const pastDueInvoices_critical_amount = pastDueInvoices_critical.reduce(
-    function (acc, inv) {
-      return acc + inv.amount;
-    },
-    0
-  );
-  const pastDueInvoices_critical_totalAmount = pastDueInvoices_critical.reduce(
-    function (acc, inv) {
-      return acc + inv.totalAmount;
-    },
-    0
-  );
+  const pastDueInvoices_critical_amount = pastDueInvoices_critical.reduce(function (acc, inv) {
+    return acc + inv.amount;
+  }, 0);
+  const pastDueInvoices_critical_totalAmount = pastDueInvoices_critical.reduce(function (acc, inv) {
+    return acc + inv.totalAmount;
+  }, 0);
 
   function toggleShowTable(id) {
     if (id === showTable) setShowTable(0);
@@ -164,7 +126,7 @@ function InvoicesAging() {
   return (
     <>
       <StyledContainer>
-        <Table columns="1.3fr 0.9fr 0.9fr 0.9fr 0.4fr">
+        <Table columns="1.5fr 0.7fr 0.9fr 0.9fr 0.5fr">
           <Table.Header>
             <ItemLeft>Invoices aging</ItemLeft>
             <div># Invoices</div>
@@ -177,44 +139,28 @@ function InvoicesAging() {
             <Item>{toBePaidInvoices.length}</Item>
             <Item>{formatCurrency(toBePaidInvoices_amount)}</Item>
             <Item>{formatCurrency(toBePaidInvoices_totalAmount)}</Item>
-            {toBePaidInvoices.length > 0 && (
-              <ClickableDiv onClick={() => toggleShowTable(1)}>
-                Details
-              </ClickableDiv>
-            )}
+            {toBePaidInvoices.length > 0 && <ClickableDiv onClick={() => toggleShowTable(1)}>Details</ClickableDiv>}
           </Table.Row>
           <Table.Row>
             <ItemLeft>PAST DUE within 1W</ItemLeft>
             <Item>{pastDueInvoices_1W.length}</Item>
             <Item>{formatCurrency(pastDueInvoices_1W_amount)}</Item>
             <Item>{formatCurrency(pastDueInvoices_1W_totalAmount)}</Item>
-            {pastDueInvoices_1W.length > 0 && (
-              <ClickableDiv onClick={() => toggleShowTable(2)}>
-                Details
-              </ClickableDiv>
-            )}
+            {pastDueInvoices_1W.length > 0 && <ClickableDiv onClick={() => toggleShowTable(2)}>Details</ClickableDiv>}
           </Table.Row>
           <Table.Row>
             <ItemLeft>PAST DUE between 1W and 1M</ItemLeft>
             <Item>{pastDueInvoices_1M.length}</Item>
             <Item>{formatCurrency(pastDueInvoices_1M_amount)}</Item>
             <Item>{formatCurrency(pastDueInvoices_1M_totalAmount)}</Item>
-            {pastDueInvoices_1M.length > 0 && (
-              <ClickableDiv onClick={() => toggleShowTable(3)}>
-                Details
-              </ClickableDiv>
-            )}
+            {pastDueInvoices_1M.length > 0 && <ClickableDiv onClick={() => toggleShowTable(3)}>Details</ClickableDiv>}
           </Table.Row>
           <Table.Row>
             <ItemLeft>PAST DUE between 1M and 2M</ItemLeft>
             <Item>{pastDueInvoices_2M.length}</Item>
             <Item>{formatCurrency(pastDueInvoices_2M_amount)}</Item>
             <Item>{formatCurrency(pastDueInvoices_2M_totalAmount)}</Item>
-            {pastDueInvoices_2M.length > 0 && (
-              <ClickableDiv onClick={() => toggleShowTable(4)}>
-                Details
-              </ClickableDiv>
-            )}
+            {pastDueInvoices_2M.length > 0 && <ClickableDiv onClick={() => toggleShowTable(4)}>Details</ClickableDiv>}
           </Table.Row>
           <Table.Row>
             <ItemLeft>PAST DUE over 2M</ItemLeft>
@@ -222,9 +168,7 @@ function InvoicesAging() {
             <Item>{formatCurrency(pastDueInvoices_critical_amount)}</Item>
             <Item>{formatCurrency(pastDueInvoices_critical_totalAmount)}</Item>
             {pastDueInvoices_critical.length > 0 && (
-              <ClickableDiv onClick={() => toggleShowTable(5)}>
-                Details
-              </ClickableDiv>
+              <ClickableDiv onClick={() => toggleShowTable(5)}>Details</ClickableDiv>
             )}
           </Table.Row>
         </Table>

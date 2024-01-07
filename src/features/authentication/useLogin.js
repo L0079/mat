@@ -10,12 +10,12 @@ export function useLogin() {
 
   const { isLoading: isLoggingIN, mutate: login } = useMutation({
     mutationFn: ({ email, password }) => loginAPI({ email, password }),
-    onSuccess: (user) => {
+    onSuccess: async (user) => {
       queryClient.setQueryData([user], user.user); //Set user data in cash
       navigate("/");
     },
     onError: (error) => toast.error(error.message),
-    onSettled: () => navigate("/"),
+    //onSettled: () => navigate("/"),
     // workaround, onSuccess does not always redirect to the home page (the component is unmounted before onSuccess is executed)
   });
 

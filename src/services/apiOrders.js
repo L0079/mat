@@ -8,7 +8,8 @@ export async function getOrders({ page, filter }) {
     .from("orders")
     .select("*, customers(id, customer, PIVA, splitPayment), currencies(id, currency), paymentTerms(id, code))", {
       count: "exact",
-    });
+    })
+    .order("id", { ascending: false });
   //   .order("orderDate", { ascending: false });
   // This cause a problem: it seems that orders will the same orderDate are not processed correctely
 

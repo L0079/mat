@@ -1,15 +1,20 @@
 import Heading from "../ui/Heading";
-import Row from "../ui/Row";
 import SuppliersOperations from "../features/suppliers/SuppliersOperations";
 import SuppliersTable from "../features/suppliers/SuppliersTable";
+import { HeaderRow, TitleAndOperation } from "../ui/HeaderRow";
 
 function Suppliers() {
+  const label = "Suppliers";
+  const labelSize = label.length + 1;
   return (
     <>
-      <Row type="horizontal">
-        <Heading as="h3">Suppliers</Heading>
-        <SuppliersOperations />
-      </Row>
+      <HeaderRow>
+        <TitleAndOperation labelSize={`${labelSize}rem`}>
+          <Heading as="h3">{label}</Heading>
+          <SuppliersOperations />
+        </TitleAndOperation>
+      </HeaderRow>
+
       <SuppliersTable />
     </>
   );

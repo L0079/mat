@@ -11,7 +11,8 @@ export async function getPurchaseOrders({ page, filter }) {
       {
         count: "exact",
       }
-    );
+    )
+    .order("id", { ascending: false });
 
   if (filter) query = query[filter.mod ? filter.mod : "eq"](filter.field, filter.value);
   // if (sortBy)
